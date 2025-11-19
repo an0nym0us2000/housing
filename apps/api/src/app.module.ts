@@ -6,6 +6,10 @@ import { PrismaModule } from './modules/prisma/prisma.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { UsersModule } from './modules/users/users.module';
 import { ListingsModule } from './modules/listings/listings.module';
+import { AmenitiesModule } from './modules/amenities/amenities.module';
+import { LocationsModule } from './modules/locations/locations.module';
+import { LeadsModule } from './modules/leads/leads.module';
+import { SavedListingsModule } from './modules/saved-listings/saved-listings.module';
 
 @Module({
   imports: [
@@ -17,6 +21,10 @@ import { ListingsModule } from './modules/listings/listings.module';
     AuthModule,
     UsersModule,
     ListingsModule,
+    AmenitiesModule,
+    LocationsModule,
+    LeadsModule,
+    SavedListingsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
