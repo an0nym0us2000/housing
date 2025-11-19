@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
+import { AuthProvider } from '@/contexts/AuthContext';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -13,6 +14,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body className={inter.className}>
+        <AuthProvider>
         <div className="flex min-h-screen">
           {/* Sidebar */}
           <aside className="fixed left-0 top-0 z-40 h-screen w-64 border-r bg-white">
@@ -189,6 +191,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <main className="p-6">{children}</main>
           </div>
         </div>
+        </AuthProvider>
       </body>
     </html>
   );
