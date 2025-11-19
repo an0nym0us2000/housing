@@ -156,6 +156,60 @@ class ApiClient {
   async isSaved(listingId: string) {
     return this.request<{ isSaved: boolean }>(`/saved-listings/${listingId}/status`);
   }
+
+  // Visits
+  async createVisit(data: any) {
+    return this.request<any>('/visits', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+  }
+
+  async getMyVisitsAsVisitor(params?: Record<string, any>) {
+    const queryString = params ? '?' + new URLSearchParams(params).toString() : '';
+    return this.request<{ data: any[]; meta: any }>(`/visits/my-visits-as-visitor${queryString}`);
+  }
+
+  async getMyVisitsAsOwner(params?: Record<string, any>) {
+    const queryString = params ? '?' + new URLSearchParams(params).toString() : '';
+    return this.request<{ data: any[]; meta: any }>(`/visits/my-visits-as-owner${queryString}`);
+  }
+
+  async getVisit(id: string) {
+    return this.request<any>(`/visits/${id}`);
+  }
+
+  async confirmVisit(id: string, data?: any) {
+    return this.request<any>(`/visits/${id}/confirm`, {
+      method: 'POST',
+      body: JSON.stringify(data || {}),
+    });
+  }
+
+  async rescheduleVisit(id: string, data: any) {
+    return this.request<any>(`/visits/${id}/reschedule`, {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+  }
+
+  async cancelVisit(id: string, reason: string) {
+    return this.request<any>(`/visits/${id}/cancel`, {
+      method: 'POST',
+      body: JSON.stringify({ cancellationReason: reason }),
+    });
+  }
+
+  async completeVisit(id: string, feedback?: string, rating?: number) {
+    return this.request<any>(`/visits/${id}/complete`, {
+      method: 'POST',
+      body: JSON.stringify({ feedback, rating }),
+    });
+  }
+
+  async getVisitStats() {
+    return this.request<any>('/visits/stats');
+  }
 }
 
 export const api = new ApiClient();
