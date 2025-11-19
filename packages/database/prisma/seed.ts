@@ -79,6 +79,33 @@ async function main() {
     console.log('✅ Locality created:', locality.name);
   }
 
+  // Create common amenities
+  const amenities = [
+    { name: 'Swimming Pool', category: 'lifestyle', icon: '🏊' },
+    { name: 'Gym', category: 'lifestyle', icon: '💪' },
+    { name: 'Clubhouse', category: 'lifestyle', icon: '🏛️' },
+    { name: 'Garden', category: 'lifestyle', icon: '🌳' },
+    { name: 'Kids Play Area', category: 'lifestyle', icon: '🎠' },
+    { name: 'Security', category: 'security', icon: '🔒' },
+    { name: 'CCTV', category: 'security', icon: '📹' },
+    { name: 'Gated Community', category: 'security', icon: '🚧' },
+    { name: 'Intercom', category: 'security', icon: '📞' },
+    { name: 'Lift', category: 'common_area', icon: '🛗' },
+    { name: 'Power Backup', category: 'common_area', icon: '🔋' },
+    { name: 'Parking', category: 'common_area', icon: '🅿️' },
+    { name: 'Water Supply', category: 'common_area', icon: '💧' },
+    { name: 'Wifi', category: 'connectivity', icon: '📡' },
+  ];
+
+  for (const amenity of amenities) {
+    await prisma.amenity.upsert({
+      where: { name: amenity.name },
+      update: {},
+      create: amenity,
+    });
+    console.log('✅ Amenity created:', amenity.name);
+  }
+
   console.log('🎉 Seeding completed successfully!');
 }
 
