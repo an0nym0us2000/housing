@@ -1,0 +1,112 @@
+// This is your Prisma schema file
+// Learn more: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================
+// USER MANAGEMENT
+// ============================================
+
+enum UserRole {
+  BUYER
+  OWNER
+  BROKER
+  BUILDER
+  ADMIN
+  MODERATOR
+  SUPPORT
+  FINANCE
+  MARKETING
+}
+
+enum UserStatus {
+  ACTIVE
+  SUSPENDED
+  BANNED
+  PENDING_VERIFICATION
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String
+  password  String
+  phone     String?
+  role      UserRole @default(BUYER)
+  status    UserStatus @default(ACTIVE)
+
+  emailVerified Boolean @default(false)
+  phoneVerified Boolean @default(false)
+
+  avatar    String?
+  bio       String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  lastLogin DateTime?
+
+  // Relations will be added in later phases
+  // listings    Listing[]
+  // leads       Lead[]
+  // savedListings SavedListing[]
+
+  @@index([email])
+  @@index([role])
+  @@index([status])
+  @@map("users")
+}
+
+// ============================================
+// CITIES AND LOCALITIES (For Phase 1)
+// ============================================
+
+model City {
+  id        String   @id @default(cuid())
+  name      String
+  state     String
+  country   String   @default("India")
+
+  latitude  Float?
+  longitude Float?
+
+  isActive  Boolean  @default(true)
+  priority  Int      @default(0) // For ordering popular cities
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  localities Locality[]
+
+  @@unique([name, state])
+  @@index([isActive, priority])
+  @@map("cities")
+}
+
+model Locality {
+  id        String   @id @default(cuid())
+  name      String
+  cityId    String
+  city      City     @relation(fields: [cityId], references: [id], onDelete: Cascade)
+
+  pincode   String?
+
+  latitude  Float?
+  longitude Float?
+
+  isActive  Boolean  @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([name, cityId])
+  @@index([cityId])
+  @@index([isActive])
+  @@map("localities")
+}
