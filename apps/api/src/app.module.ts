@@ -10,6 +10,7 @@ import { AmenitiesModule } from './modules/amenities/amenities.module';
 import { LocationsModule } from './modules/locations/locations.module';
 import { LeadsModule } from './modules/leads/leads.module';
 import { SavedListingsModule } from './modules/saved-listings/saved-listings.module';
+import { VisitsModule } from './modules/visits/visits.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { SavedListingsModule } from './modules/saved-listings/saved-listings.mod
     LocationsModule,
     LeadsModule,
     SavedListingsModule,
+    VisitsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

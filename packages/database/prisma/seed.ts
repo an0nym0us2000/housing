@@ -43,7 +43,7 @@ async function main() {
       name: 'Mumbai',
       state: 'Maharashtra',
       priority: 2,
-      latitude: 19.0760,
+      latitude: 19.076,
       longitude: 72.8777,
     },
   });
