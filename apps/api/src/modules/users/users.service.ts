@@ -1,44 +1,57 @@
 import { Injectable } from '@nestjs/common';
-
-// Temporary in-memory storage (will be replaced with Prisma)
-interface User {
-  id: string;
-  email: string;
-  name: string;
-  password: string;
-  role: string;
-  phone?: string;
-  createdAt: Date;
-}
+import { PrismaService } from '../prisma/prisma.service';
+import { User, UserRole } from '@housing/database';
 
 @Injectable()
 export class UsersService {
-  private users: User[] = [];
+  constructor(private prisma: PrismaService) {}
 
-  async create(data: Partial<User>): Promise<User> {
-    const user: User = {
-      id: Date.now().toString(),
-      email: data.email!,
-      name: data.name!,
-      password: data.password!,
-      role: data.role || 'buyer',
-      phone: data.phone,
-      createdAt: new Date(),
-    };
-
-    this.users.push(user);
-    return user;
+  async create(data: {
+    email: string;
+    name: string;
+    password: string;
+    role?: UserRole;
+    phone?: string;
+  }): Promise<User> {
+    return this.prisma.user.create({
+      data: {
+        email: data.email,
+        name: data.name,
+        password: data.password,
+        role: data.role || UserRole.BUYER,
+        phone: data.phone,
+      },
+    });
   }
 
-  async findByEmail(email: string): Promise<User | undefined> {
-    return this.users.find((user) => user.email === email);
+  async findByEmail(email: string): Promise<User | null> {
+    return this.prisma.user.findUnique({
+      where: { email },
+    });
   }
 
-  async findById(id: string): Promise<User | undefined> {
-    return this.users.find((user) => user.id === id);
+  async findById(id: string): Promise<User | null> {
+    return this.prisma.user.findUnique({
+      where: { id },
+    });
   }
 
   async findAll(): Promise<User[]> {
-    return this.users;
+    return this.prisma.user.findMany({
+      orderBy: { createdAt: 'desc' },
+    });
+  }
+
+  async update(id: string, data: Partial<User>): Promise<User> {
+    return this.prisma.user.update({
+      where: { id },
+      data,
+    });
+  }
+
+  async delete(id: string): Promise<User> {
+    return this.prisma.user.delete({
+      where: { id },
+    });
   }
 }
