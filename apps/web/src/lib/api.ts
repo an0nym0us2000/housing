@@ -210,6 +210,98 @@ class ApiClient {
   async getVisitStats() {
     return this.request<any>('/visits/stats');
   }
+
+  // Teams
+  async createTeam(data: any) {
+    return this.request<any>('/teams', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+  }
+
+  async getTeams() {
+    return this.request<any[]>('/teams');
+  }
+
+  async getTeam(id: string) {
+    return this.request<any>(`/teams/${id}`);
+  }
+
+  async updateTeam(id: string, data: any) {
+    return this.request<any>(`/teams/${id}`, {
+      method: 'PATCH',
+      body: JSON.stringify(data),
+    });
+  }
+
+  async deleteTeam(id: string) {
+    return this.request<any>(`/teams/${id}`, {
+      method: 'DELETE',
+    });
+  }
+
+  async addTeamMember(teamId: string, data: any) {
+    return this.request<any>(`/teams/${teamId}/members`, {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+  }
+
+  async removeTeamMember(teamId: string, memberId: string) {
+    return this.request<any>(`/teams/${teamId}/members/${memberId}`, {
+      method: 'DELETE',
+    });
+  }
+
+  async updateTeamMemberRole(teamId: string, memberId: string, role: string) {
+    return this.request<any>(`/teams/${teamId}/members/${memberId}/role`, {
+      method: 'PATCH',
+      body: JSON.stringify({ role }),
+    });
+  }
+
+  async getTeamStats(teamId: string) {
+    return this.request<any>(`/teams/${teamId}/stats`);
+  }
+
+  // Tasks
+  async createTask(data: any) {
+    return this.request<any>('/tasks', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+  }
+
+  async getTasks(params?: Record<string, any>) {
+    const queryString = params ? '?' + new URLSearchParams(params).toString() : '';
+    return this.request<{ data: any[]; meta: any }>(`/tasks${queryString}`);
+  }
+
+  async getMyTasks(params?: Record<string, any>) {
+    const queryString = params ? '?' + new URLSearchParams(params).toString() : '';
+    return this.request<{ data: any[]; meta: any }>(`/tasks/my-tasks${queryString}`);
+  }
+
+  async getTask(id: string) {
+    return this.request<any>(`/tasks/${id}`);
+  }
+
+  async updateTask(id: string, data: any) {
+    return this.request<any>(`/tasks/${id}`, {
+      method: 'PATCH',
+      body: JSON.stringify(data),
+    });
+  }
+
+  async deleteTask(id: string) {
+    return this.request<any>(`/tasks/${id}`, {
+      method: 'DELETE',
+    });
+  }
+
+  async getTaskStats() {
+    return this.request<any>('/tasks/stats');
+  }
 }
 
 export const api = new ApiClient();

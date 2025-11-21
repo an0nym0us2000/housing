@@ -11,6 +11,8 @@ import { LocationsModule } from './modules/locations/locations.module';
 import { LeadsModule } from './modules/leads/leads.module';
 import { SavedListingsModule } from './modules/saved-listings/saved-listings.module';
 import { VisitsModule } from './modules/visits/visits.module';
+import { TeamsModule } from './modules/teams/teams.module';
+import { TasksModule } from './modules/tasks/tasks.module';
 
 @Module({
   imports: [
@@ -27,6 +29,8 @@ import { VisitsModule } from './modules/visits/visits.module';
     LeadsModule,
     SavedListingsModule,
     VisitsModule,
+    TeamsModule,
+    TasksModule,
   ],
   controllers: [AppController],
   providers: [AppService],

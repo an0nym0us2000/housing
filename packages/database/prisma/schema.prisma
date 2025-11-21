@@ -48,6 +48,16 @@ model User {
   avatar    String?
   bio       String?
 
+  // Broker-specific fields
+  companyName     String?
+  licenseNumber   String?
+  gstNumber       String?
+  officeAddress   String?
+
+  // Builder-specific fields
+  builderCompany  String?
+  establishedYear Int?
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   lastLogin DateTime?
@@ -60,6 +70,15 @@ model User {
   visitorVisits   Visit[]          @relation("VisitorVisits")
   ownerVisits     Visit[]          @relation("OwnerVisits")
   notifications   Notification[]   @relation("UserNotifications")
+
+  // Broker/Team relations
+  ownedTeams      Team[]           @relation("TeamOwner")
+  teamMemberships TeamMember[]
+  assignedLeads   LeadAssignment[]
+  assignedLeadsBy LeadAssignment[] @relation("AssignedByUser")
+  leadActivities  LeadActivity[]
+  tasks           Task[]           @relation("TaskAssignee")
+  createdTasks    Task[]           @relation("TaskCreator")
 
   @@index([email])
   @@index([role])
@@ -170,6 +189,10 @@ model Listing {
   // Ownership
   userId    String
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Team (Phase 3 - for broker team listings)
+  teamId    String?
+  team      Team?    @relation("TeamListings", fields: [teamId], references: [id])
 
   // Basic Info
   title     String
@@ -377,11 +400,18 @@ model Lead {
   ownerId     String
   owner       User       @relation("LeadCreatedBy", fields: [ownerId], references: [id])
 
+  // CRM Pipeline (Phase 3)
+  pipelineStage LeadPipelineStage @default(NEW)
+
   isRead      Boolean    @default(false)
   readAt      DateTime?
 
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
+
+  // CRM Relations (Phase 3)
+  assignments LeadAssignment[]
+  activities  LeadActivity[]
 
   @@index([listingId])
   @@index([userId])
@@ -525,4 +555,182 @@ model Notification {
   @@index([userId, isRead])
   @@index([createdAt])
   @@map("notifications")
+}
+
+// ============================================
+// BROKER & TEAM MANAGEMENT (Phase 3)
+// ============================================
+
+enum TeamRole {
+  OWNER      // Broker who owns the team
+  ADMIN      // Can manage team members and settings
+  AGENT      // Regular team member
+}
+
+model Team {
+  id          String   @id @default(cuid())
+  name        String
+  description String?  @db.Text
+
+  // Owner (Broker)
+  ownerId     String
+  owner       User     @relation("TeamOwner", fields: [ownerId], references: [id], onDelete: Cascade)
+
+  isActive    Boolean  @default(true)
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  members     TeamMember[]
+  listings    Listing[]  @relation("TeamListings")
+
+  @@index([ownerId])
+  @@map("teams")
+}
+
+model TeamMember {
+  id          String   @id @default(cuid())
+
+  teamId      String
+  team        Team     @relation(fields: [teamId], references: [id], onDelete: Cascade)
+
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  role        TeamRole @default(AGENT)
+
+  joinedAt    DateTime @default(now())
+
+  @@unique([teamId, userId])
+  @@index([teamId])
+  @@index([userId])
+  @@map("team_members")
+}
+
+// ============================================
+// CRM & LEAD MANAGEMENT (Phase 3)
+// ============================================
+
+enum LeadPipelineStage {
+  NEW
+  CONTACTED
+  QUALIFIED
+  SITE_VISIT_SCHEDULED
+  SITE_VISIT_COMPLETED
+  NEGOTIATION
+  DEAL_CLOSED
+  LOST
+}
+
+enum LeadActivityType {
+  NOTE
+  CALL
+  EMAIL
+  MEETING
+  SITE_VISIT
+  STATUS_CHANGE
+  ASSIGNMENT
+}
+
+model LeadAssignment {
+  id          String   @id @default(cuid())
+
+  leadId      String
+  lead        Lead     @relation(fields: [leadId], references: [id], onDelete: Cascade)
+
+  assignedToId String
+  assignedTo   User    @relation(fields: [assignedToId], references: [id])
+
+  assignedById String?
+  assignedBy   User?   @relation("AssignedByUser", fields: [assignedById], references: [id])
+
+  assignedAt   DateTime @default(now())
+
+  @@index([leadId])
+  @@index([assignedToId])
+  @@map("lead_assignments")
+}
+
+model LeadActivity {
+  id          String           @id @default(cuid())
+
+  leadId      String
+  lead        Lead             @relation(fields: [leadId], references: [id], onDelete: Cascade)
+
+  userId      String
+  user        User             @relation(fields: [userId], references: [id])
+
+  type        LeadActivityType
+  title       String
+  description String?          @db.Text
+
+  // For calls/meetings
+  duration    Int?             // in minutes
+  scheduledAt DateTime?
+
+  // Metadata
+  metadata    Json?
+
+  createdAt   DateTime         @default(now())
+
+  @@index([leadId])
+  @@index([userId])
+  @@index([createdAt])
+  @@map("lead_activities")
+}
+
+// ============================================
+// TASK MANAGEMENT (Phase 3)
+// ============================================
+
+enum TaskStatus {
+  TODO
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
+
+enum TaskPriority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+model Task {
+  id          String       @id @default(cuid())
+
+  title       String
+  description String?      @db.Text
+
+  // Assignment
+  assignedToId String
+  assignedTo   User        @relation("TaskAssignee", fields: [assignedToId], references: [id])
+
+  createdById  String
+  createdBy    User        @relation("TaskCreator", fields: [createdById], references: [id])
+
+  // Task details
+  status      TaskStatus   @default(TODO)
+  priority    TaskPriority @default(MEDIUM)
+
+  dueDate     DateTime?
+  completedAt DateTime?
+
+  // Related entities
+  leadId      String?
+  listingId   String?
+
+  // Reminders
+  reminderSent Boolean     @default(false)
+
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  @@index([assignedToId])
+  @@index([createdById])
+  @@index([status])
+  @@index([dueDate])
+  @@map("tasks")
 }
