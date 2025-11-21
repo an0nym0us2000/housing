@@ -302,6 +302,92 @@ class ApiClient {
   async getTaskStats() {
     return this.request<any>('/tasks/stats');
   }
+
+  // Projects
+  async createProject(data: any) {
+    return this.request<any>('/projects', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+  }
+
+  async getProjects(params?: Record<string, any>) {
+    const queryString = params ? '?' + new URLSearchParams(params).toString() : '';
+    return this.request<any[]>(`/projects${queryString}`);
+  }
+
+  async getMyProjects() {
+    return this.request<any[]>('/projects/my-projects');
+  }
+
+  async getProject(id: string) {
+    return this.request<any>(`/projects/${id}`);
+  }
+
+  async getProjectBySlug(slug: string) {
+    return this.request<any>(`/projects/slug/${slug}`);
+  }
+
+  async updateProject(id: string, data: any) {
+    return this.request<any>(`/projects/${id}`, {
+      method: 'PATCH',
+      body: JSON.stringify(data),
+    });
+  }
+
+  async deleteProject(id: string) {
+    return this.request<any>(`/projects/${id}`, {
+      method: 'DELETE',
+    });
+  }
+
+  // Towers
+  async createTower(projectId: string, data: any) {
+    return this.request<any>(`/projects/${projectId}/towers`, {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+  }
+
+  async getTowers(projectId: string) {
+    return this.request<any[]>(`/projects/${projectId}/towers`);
+  }
+
+  // Units
+  async createUnit(projectId: string, data: any) {
+    return this.request<any>(`/projects/${projectId}/units`, {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+  }
+
+  async bulkCreateUnits(projectId: string, units: any[]) {
+    return this.request<any>(`/projects/${projectId}/units/bulk`, {
+      method: 'POST',
+      body: JSON.stringify({ units }),
+    });
+  }
+
+  async getUnits(projectId: string, params?: Record<string, any>) {
+    const queryString = params ? '?' + new URLSearchParams(params).toString() : '';
+    return this.request<any[]>(`/projects/${projectId}/units${queryString}`);
+  }
+
+  async updateUnit(unitId: string, data: any) {
+    return this.request<any>(`/projects/units/${unitId}`, {
+      method: 'PATCH',
+      body: JSON.stringify(data),
+    });
+  }
+
+  // Project Analytics
+  async getInventorySummary(projectId: string) {
+    return this.request<any>(`/projects/${projectId}/inventory-summary`);
+  }
+
+  async getProjectStats(projectId: string) {
+    return this.request<any>(`/projects/${projectId}/stats`);
+  }
 }
 
 export const api = new ApiClient();

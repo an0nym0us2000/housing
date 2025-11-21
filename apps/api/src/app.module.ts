@@ -13,6 +13,7 @@ import { SavedListingsModule } from './modules/saved-listings/saved-listings.mod
 import { VisitsModule } from './modules/visits/visits.module';
 import { TeamsModule } from './modules/teams/teams.module';
 import { TasksModule } from './modules/tasks/tasks.module';
+import { ProjectsModule } from './modules/projects/projects.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { TasksModule } from './modules/tasks/tasks.module';
     VisitsModule,
     TeamsModule,
     TasksModule,
+    ProjectsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
