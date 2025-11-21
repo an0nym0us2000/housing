@@ -16,10 +16,18 @@ export default function ListingDetailPage() {
   const [loading, setLoading] = useState(true);
   const [isSaved, setIsSaved] = useState(false);
   const [showContactForm, setShowContactForm] = useState(false);
+  const [showVisitModal, setShowVisitModal] = useState(false);
   const [contactForm, setContactForm] = useState({
     name: user?.name || '',
     email: user?.email || '',
     phone: '',
+    message: '',
+  });
+  const [visitForm, setVisitForm] = useState({
+    scheduledAt: '',
+    visitorName: user?.name || '',
+    visitorPhone: user?.phone || '',
+    visitorEmail: user?.email || '',
     message: '',
   });
 
@@ -90,6 +98,37 @@ export default function ListingDetailPage() {
     } catch (error: any) {
       console.error('Failed to send inquiry:', error);
       alert(error.message || 'Failed to send inquiry');
+    }
+  };
+
+  const handleVisitSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!isAuthenticated) {
+      router.push('/login');
+      return;
+    }
+
+    try {
+      await api.createVisit({
+        listingId,
+        scheduledAt: visitForm.scheduledAt,
+        visitorName: visitForm.visitorName,
+        visitorPhone: visitForm.visitorPhone,
+        visitorEmail: visitForm.visitorEmail,
+        message: visitForm.message,
+      });
+      alert('Visit scheduled successfully! The owner will be notified.');
+      setShowVisitModal(false);
+      setVisitForm({
+        scheduledAt: '',
+        visitorName: user?.name || '',
+        visitorPhone: user?.phone || '',
+        visitorEmail: user?.email || '',
+        message: '',
+      });
+    } catch (error: any) {
+      console.error('Failed to schedule visit:', error);
+      alert(error.message || 'Failed to schedule visit');
     }
   };
 
@@ -384,6 +423,19 @@ export default function ListingDetailPage() {
                     Contact Owner
                   </button>
 
+                  <button
+                    onClick={() => {
+                      if (!isAuthenticated) {
+                        router.push('/login');
+                        return;
+                      }
+                      setShowVisitModal(true);
+                    }}
+                    className="w-full rounded-md border-2 border-primary-600 px-4 py-3 text-primary-600 font-medium hover:bg-primary-50 mb-2"
+                  >
+                    Schedule Visit
+                  </button>
+
                   <p className="text-xs text-center text-gray-500 mt-4">
                     By contacting, you agree to our Terms & Conditions
                   </p>
@@ -392,6 +444,125 @@ export default function ListingDetailPage() {
             </div>
           </div>
         </div>
+
+        {/* Visit Scheduling Modal */}
+        {showVisitModal && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+            <div className="bg-white rounded-lg shadow-xl max-w-md w-full max-h-[90vh] overflow-y-auto">
+              <div className="p-6">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-xl font-semibold text-gray-900">Schedule Property Visit</h3>
+                  <button
+                    onClick={() => setShowVisitModal(false)}
+                    className="text-gray-400 hover:text-gray-600"
+                  >
+                    <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M6 18L18 6M6 6l12 12"
+                      />
+                    </svg>
+                  </button>
+                </div>
+
+                <form onSubmit={handleVisitSubmit} className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Visit Date & Time *
+                    </label>
+                    <input
+                      type="datetime-local"
+                      value={visitForm.scheduledAt}
+                      onChange={(e) =>
+                        setVisitForm({ ...visitForm, scheduledAt: e.target.value })
+                      }
+                      min={new Date().toISOString().slice(0, 16)}
+                      required
+                      className="w-full rounded-md border border-gray-300 px-3 py-2 focus:border-primary-500 focus:ring-primary-500"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Your Name *
+                    </label>
+                    <input
+                      type="text"
+                      value={visitForm.visitorName}
+                      onChange={(e) =>
+                        setVisitForm({ ...visitForm, visitorName: e.target.value })
+                      }
+                      required
+                      className="w-full rounded-md border border-gray-300 px-3 py-2 focus:border-primary-500 focus:ring-primary-500"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Your Phone *
+                    </label>
+                    <input
+                      type="tel"
+                      value={visitForm.visitorPhone}
+                      onChange={(e) =>
+                        setVisitForm({ ...visitForm, visitorPhone: e.target.value })
+                      }
+                      required
+                      className="w-full rounded-md border border-gray-300 px-3 py-2 focus:border-primary-500 focus:ring-primary-500"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Your Email
+                    </label>
+                    <input
+                      type="email"
+                      value={visitForm.visitorEmail}
+                      onChange={(e) =>
+                        setVisitForm({ ...visitForm, visitorEmail: e.target.value })
+                      }
+                      className="w-full rounded-md border border-gray-300 px-3 py-2 focus:border-primary-500 focus:ring-primary-500"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Message (Optional)
+                    </label>
+                    <textarea
+                      value={visitForm.message}
+                      onChange={(e) =>
+                        setVisitForm({ ...visitForm, message: e.target.value })
+                      }
+                      rows={3}
+                      className="w-full rounded-md border border-gray-300 px-3 py-2 focus:border-primary-500 focus:ring-primary-500"
+                      placeholder="Any special requests or questions..."
+                    />
+                  </div>
+
+                  <div className="flex gap-3 pt-4">
+                    <button
+                      type="button"
+                      onClick={() => setShowVisitModal(false)}
+                      className="flex-1 rounded-md border border-gray-300 px-4 py-2 text-gray-700 hover:bg-gray-50"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      type="submit"
+                      className="flex-1 rounded-md bg-primary-600 px-4 py-2 text-white hover:bg-primary-700"
+                    >
+                      Schedule Visit
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
