@@ -1,6 +1,7 @@
 # Phase 3 Build Summary - Broker & Team Panel
 
 ## Overview
+
 Phase 3 adds comprehensive broker and team management capabilities to the Housing Platform, including team creation, member management, task tracking, and CRM features for lead assignment and activity tracking.
 
 ## Database Schema Changes
@@ -8,6 +9,7 @@ Phase 3 adds comprehensive broker and team management capabilities to the Housin
 ### New Models Added
 
 #### 1. Team Model
+
 ```prisma
 model Team {
   id          String   @id @default(cuid())
@@ -25,6 +27,7 @@ model Team {
 ```
 
 #### 2. TeamMember Model
+
 ```prisma
 model TeamMember {
   id       String   @id @default(cuid())
@@ -40,6 +43,7 @@ model TeamMember {
 ```
 
 #### 3. Task Model
+
 ```prisma
 model Task {
   id           String       @id @default(cuid())
@@ -62,6 +66,7 @@ model Task {
 ```
 
 #### 4. LeadAssignment Model
+
 ```prisma
 model LeadAssignment {
   id           String   @id @default(cuid())
@@ -76,6 +81,7 @@ model LeadAssignment {
 ```
 
 #### 5. LeadActivity Model
+
 ```prisma
 model LeadActivity {
   id          String           @id @default(cuid())
@@ -96,6 +102,7 @@ model LeadActivity {
 ### Extended Existing Models
 
 #### User Model Extensions
+
 ```prisma
 // Broker-specific fields
 companyName     String?
@@ -118,6 +125,7 @@ createdTasks    Task[]           @relation("TaskCreator")
 ```
 
 #### Lead Model Extensions
+
 ```prisma
 pipelineStage LeadPipelineStage @default(NEW)
 assignments   LeadAssignment[]
@@ -125,12 +133,14 @@ activities    LeadActivity[]
 ```
 
 #### Listing Model Extensions
+
 ```prisma
 teamId  String?
 team    Team?  @relation("TeamListings")
 ```
 
 ### New Enums
+
 - `TeamRole`: OWNER, ADMIN, AGENT
 - `TaskStatus`: TODO, IN_PROGRESS, COMPLETED, CANCELLED
 - `TaskPriority`: LOW, MEDIUM, HIGH, URGENT
@@ -142,6 +152,7 @@ team    Team?  @relation("TeamListings")
 ### Teams Module (9 Endpoints)
 
 #### Team Management
+
 - **POST /teams** - Create team (broker only)
   - Request: `{ name, description }`
   - Automatically adds creator as OWNER member
@@ -164,6 +175,7 @@ team    Team?  @relation("TeamListings")
   - Only team owner can delete
 
 #### Team Member Management
+
 - **POST /teams/:id/members** - Add team member
   - Request: `{ userId, role }`
   - Requires OWNER or ADMIN role
@@ -179,6 +191,7 @@ team    Team?  @relation("TeamListings")
   - Cannot change owner role
 
 #### Team Analytics
+
 - **GET /teams/:id/stats** - Get team statistics
   - Returns: total listings, active listings, total leads, pending tasks
   - Accessible to all team members
@@ -186,6 +199,7 @@ team    Team?  @relation("TeamListings")
 ### Tasks Module (7 Endpoints)
 
 #### Task Management
+
 - **POST /tasks** - Create task
   - Request: `{ title, description?, assignedToId, priority?, dueDate?, leadId?, listingId? }`
   - Validates assignee exists
@@ -223,6 +237,7 @@ team    Team?  @relation("TeamListings")
 ### 1. Broker Registration (`/broker/register`)
 
 **Features:**
+
 - Two-section form: Personal Information & Company Information
 - Personal fields: name, email, phone, password
 - Company fields: companyName, licenseNumber, gstNumber, officeAddress
@@ -232,6 +247,7 @@ team    Team?  @relation("TeamListings")
 - Redirect to login after successful registration
 
 **User Experience:**
+
 - Clean, professional design with section headers
 - Grid layout for responsive form fields
 - Clear validation messages
@@ -241,6 +257,7 @@ team    Team?  @relation("TeamListings")
 ### 2. Team Management Dashboard (`/broker/teams`)
 
 **Features:**
+
 - View all teams where user is a member
 - Create new teams with name and description
 - Team cards showing:
@@ -255,6 +272,7 @@ team    Team?  @relation("TeamListings")
 - Modal dialogs for create and add member actions
 
 **Permissions:**
+
 - Only brokers can create teams
 - Team creation auto-assigns creator as OWNER
 - Only OWNER and ADMIN can add/remove members
@@ -262,6 +280,7 @@ team    Team?  @relation("TeamListings")
 - Cannot remove team owner
 
 **User Experience:**
+
 - Grid layout for team cards
 - Color-coded status badges
 - Real-time member list with inline remove buttons
@@ -272,6 +291,7 @@ team    Team?  @relation("TeamListings")
 ### 3. Task Management Dashboard (`/tasks`)
 
 **Features:**
+
 - Task statistics dashboard:
   - To Do count
   - In Progress count
@@ -297,6 +317,7 @@ team    Team?  @relation("TeamListings")
 - Overdue task highlighting with red border
 
 **Visual Design:**
+
 - Color-coded priority badges:
   - LOW: Gray
   - MEDIUM: Blue
@@ -308,6 +329,7 @@ team    Team?  @relation("TeamListings")
 - Modal dialog for task creation
 
 **User Experience:**
+
 - Real-time stats updates
 - Filter-based task view
 - Empty state with create prompt
@@ -318,19 +340,21 @@ team    Team?  @relation("TeamListings")
 ## API Client Methods Added
 
 ### Teams API Client (9 methods)
+
 ```typescript
-createTeam(data)              // Create new team
-getTeams()                    // Get user's teams
-getTeam(id)                   // Get team details
-updateTeam(id, data)          // Update team
-deleteTeam(id)                // Delete team
-addTeamMember(teamId, data)   // Add member to team
-removeTeamMember(teamId, memberId) // Remove member
-updateTeamMemberRole(teamId, memberId, role) // Update role
-getTeamStats(teamId)          // Get team statistics
+createTeam(data); // Create new team
+getTeams(); // Get user's teams
+getTeam(id); // Get team details
+updateTeam(id, data); // Update team
+deleteTeam(id); // Delete team
+addTeamMember(teamId, data); // Add member to team
+removeTeamMember(teamId, memberId); // Remove member
+updateTeamMemberRole(teamId, memberId, role); // Update role
+getTeamStats(teamId); // Get team statistics
 ```
 
 ### Tasks API Client (7 methods)
+
 ```typescript
 createTask(data)              // Create new task
 getTasks(params?)             // Get all tasks
@@ -344,6 +368,7 @@ getTaskStats()                // Get task statistics
 ## Technical Stack
 
 ### Backend
+
 - **Framework**: NestJS with TypeScript
 - **Database**: PostgreSQL with Prisma ORM
 - **Validation**: class-validator
@@ -351,6 +376,7 @@ getTaskStats()                // Get task statistics
 - **Authentication**: JWT with guards
 
 ### Frontend
+
 - **Framework**: Next.js 14 with App Router
 - **Language**: TypeScript
 - **Styling**: Tailwind CSS
@@ -361,6 +387,7 @@ getTaskStats()                // Get task statistics
 ## File Structure
 
 ### Backend Files Created
+
 ```
 apps/api/src/modules/
 ├── teams/
@@ -382,6 +409,7 @@ apps/api/src/modules/
 ```
 
 ### Frontend Files Created
+
 ```
 apps/web/src/app/
 ├── broker/
@@ -394,6 +422,7 @@ apps/web/src/app/
 ```
 
 ### Modified Files
+
 ```
 packages/database/prisma/schema.prisma  # Extended with Phase 3 models
 apps/api/src/app.module.ts              # Added Teams and Tasks modules
@@ -403,6 +432,7 @@ apps/web/src/lib/api.ts                  # Added API client methods
 ## Key Features Implemented
 
 ### 1. Team Management
+
 - ✅ Broker team creation and management
 - ✅ Role-based access control (OWNER, ADMIN, AGENT)
 - ✅ Member invitation and removal
@@ -410,6 +440,7 @@ apps/web/src/lib/api.ts                  # Added API client methods
 - ✅ Team-based listing management
 
 ### 2. Task Management
+
 - ✅ Task creation with priority and due dates
 - ✅ Task assignment to team members
 - ✅ Status tracking (TODO, IN_PROGRESS, COMPLETED, CANCELLED)
@@ -418,6 +449,7 @@ apps/web/src/lib/api.ts                  # Added API client methods
 - ✅ Filter and sort capabilities
 
 ### 3. CRM Foundation
+
 - ✅ Lead assignment model
 - ✅ Lead activity tracking model
 - ✅ Pipeline stage management
@@ -425,6 +457,7 @@ apps/web/src/lib/api.ts                  # Added API client methods
 - ✅ Database structure for future CRM features
 
 ### 4. Broker Registration
+
 - ✅ Dedicated broker registration flow
 - ✅ Company information collection
 - ✅ License and GST number validation
@@ -433,6 +466,7 @@ apps/web/src/lib/api.ts                  # Added API client methods
 ## User Roles and Permissions
 
 ### Broker (Team Owner)
+
 - Create and delete teams
 - Add/remove team members
 - Update member roles
@@ -441,12 +475,14 @@ apps/web/src/lib/api.ts                  # Added API client methods
 - Create tasks for team members
 
 ### Admin (Team Admin)
+
 - Add/remove team members
 - Update team details
 - View team analytics
 - Cannot delete team or change owner role
 
 ### Agent (Team Member)
+
 - View team information
 - Work on assigned tasks
 - View team listings
@@ -455,11 +491,13 @@ apps/web/src/lib/api.ts                  # Added API client methods
 ## Navigation and Access Control
 
 ### Route Protection
+
 - `/broker/register` - Public (for new broker signups)
 - `/broker/teams` - Broker role required
 - `/tasks` - Authenticated users only
 
 ### Role Checks
+
 - Team creation restricted to BROKER role
 - Team management actions check user's team role
 - Task actions validate assignee/creator relationship
@@ -467,12 +505,14 @@ apps/web/src/lib/api.ts                  # Added API client methods
 ## Performance Considerations
 
 ### Database Queries
+
 - Efficient use of Prisma includes for related data
 - Pagination implemented on list endpoints
 - Indexed fields for common queries
 - Count queries optimized with \_count
 
 ### Frontend
+
 - Loading states for async operations
 - Error handling with user feedback
 - Optimistic UI updates where appropriate
@@ -481,6 +521,7 @@ apps/web/src/lib/api.ts                  # Added API client methods
 ## Testing Recommendations
 
 ### Backend Testing
+
 1. Team creation by broker
 2. Member addition with different roles
 3. Permission validation for team actions
@@ -489,6 +530,7 @@ apps/web/src/lib/api.ts                  # Added API client methods
 6. Cascade deletes (team → members)
 
 ### Frontend Testing
+
 1. Broker registration flow
 2. Team creation and member management
 3. Task creation and status transitions
@@ -497,6 +539,7 @@ apps/web/src/lib/api.ts                  # Added API client methods
 6. Error handling and validation
 
 ### Integration Testing
+
 1. End-to-end team lifecycle
 2. Task assignment workflow
 3. Permission enforcement
@@ -505,6 +548,7 @@ apps/web/src/lib/api.ts                  # Added API client methods
 ## Security Considerations
 
 ✅ **Implemented:**
+
 - JWT authentication on all endpoints
 - Role-based access control
 - Owner/admin permission checks
@@ -513,6 +557,7 @@ apps/web/src/lib/api.ts                  # Added API client methods
 - Cannot modify other users' tasks (except assignee/creator)
 
 ⚠️ **Future Enhancements:**
+
 - Rate limiting for team creation
 - Audit logs for team changes
 - Email verification for new brokers
@@ -522,6 +567,7 @@ apps/web/src/lib/api.ts                  # Added API client methods
 ## Future Phase 3 Enhancements
 
 ### Phase 3.5 - CRM Features
+
 - Lead assignment UI
 - Lead activity timeline
 - Kanban board for pipeline stages
@@ -530,6 +576,7 @@ apps/web/src/lib/api.ts                  # Added API client methods
 - Email integration
 
 ### Phase 3.6 - Advanced Team Features
+
 - Team performance metrics
 - Commission tracking
 - Team-based notifications
@@ -537,6 +584,7 @@ apps/web/src/lib/api.ts                  # Added API client methods
 - Team messaging/chat
 
 ### Phase 3.7 - Automation
+
 - Auto-assignment rules
 - Task reminders
 - Workflow automation
@@ -546,6 +594,7 @@ apps/web/src/lib/api.ts                  # Added API client methods
 ## Migration Notes
 
 ### Database Migration Required
+
 ```bash
 # Generate migration
 npx prisma migrate dev --name add-phase3-broker-team-crm
@@ -555,6 +604,7 @@ npx prisma migrate deploy
 ```
 
 ### Seed Data Recommendations
+
 - Create sample broker users
 - Set up demo teams
 - Add sample tasks with various statuses
@@ -565,6 +615,7 @@ npx prisma migrate deploy
 **Total New Endpoints: 16**
 
 ### Teams Module: 9 endpoints
+
 - POST /teams
 - GET /teams
 - GET /teams/:id
@@ -576,6 +627,7 @@ npx prisma migrate deploy
 - GET /teams/:id/stats
 
 ### Tasks Module: 7 endpoints
+
 - POST /tasks
 - GET /tasks
 - GET /tasks/my-tasks
@@ -587,6 +639,7 @@ npx prisma migrate deploy
 ## Commits
 
 ### Backend Commit
+
 ```
 feat(api): add Phase 3 backend - Teams & Tasks modules
 
@@ -601,6 +654,7 @@ feat(api): add Phase 3 backend - Teams & Tasks modules
 ```
 
 ### Frontend Commit
+
 ```
 feat(web): add Phase 3 frontend - Broker & Team Panel
 
@@ -616,6 +670,7 @@ feat(web): add Phase 3 frontend - Broker & Team Panel
 ## Conclusion
 
 Phase 3 successfully transforms the Housing Platform into a comprehensive broker management system with:
+
 - **30+ new database fields** across 5 new models and 3 extended models
 - **16 new API endpoints** with full CRUD operations
 - **3 new frontend pages** with rich interactivity
@@ -624,6 +679,7 @@ Phase 3 successfully transforms the Housing Platform into a comprehensive broker
 - **Foundation for advanced CRM features** in future phases
 
 The platform now supports:
+
 1. Broker registration with company details
 2. Team creation and member management
 3. Role-based permissions (Owner, Admin, Agent)

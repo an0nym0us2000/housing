@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException, ForbiddenException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
+import { NotificationsService } from '../notifications/notifications.service';
 import { ListingStatus } from '@housing/database';
 import { CreateListingDto } from './dto/create-listing.dto';
 import { UpdateListingDto } from './dto/update-listing.dto';
@@ -7,7 +8,10 @@ import { QueryListingDto } from './dto/query-listing.dto';
 
 @Injectable()
 export class ListingsService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private notificationsService: NotificationsService
+  ) {}
 
   async create(userId: string, data: CreateListingDto) {
     const { amenityIds, ...listingData } = data;
@@ -269,7 +273,25 @@ export class ListingsService {
 
   // Admin methods
   async approveListing(id: string, moderatorId: string) {
-    return this.prisma.listing.update({
+    // Get listing with owner details
+    const listing = await this.prisma.listing.findUnique({
+      where: { id },
+      include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+          },
+        },
+      },
+    });
+
+    if (!listing) {
+      throw new NotFoundException('Listing not found');
+    }
+
+    const updatedListing = await this.prisma.listing.update({
       where: { id },
       data: {
         status: ListingStatus.PUBLISHED,
@@ -278,10 +300,35 @@ export class ListingsService {
         publishedAt: new Date(),
       },
     });
+
+    // Send approval notification (async, don't wait)
+    this.notificationsService
+      .sendListingApproved(listing, listing.user)
+      .catch((error) => console.error('Failed to send listing approved notification:', error));
+
+    return updatedListing;
   }
 
   async rejectListing(id: string, moderatorId: string, reason: string) {
-    return this.prisma.listing.update({
+    // Get listing with owner details
+    const listing = await this.prisma.listing.findUnique({
+      where: { id },
+      include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+          },
+        },
+      },
+    });
+
+    if (!listing) {
+      throw new NotFoundException('Listing not found');
+    }
+
+    const updatedListing = await this.prisma.listing.update({
       where: { id },
       data: {
         status: ListingStatus.REJECTED,
@@ -290,5 +337,12 @@ export class ListingsService {
         rejectionReason: reason,
       },
     });
+
+    // Send rejection notification (async, don't wait)
+    this.notificationsService
+      .sendListingRejected(listing, listing.user, reason)
+      .catch((error) => console.error('Failed to send listing rejected notification:', error));
+
+    return updatedListing;
   }
 }

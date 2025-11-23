@@ -145,7 +145,8 @@ export default function ModerationPage() {
           </svg>
           <div>
             <p className="font-medium text-gray-900">
-              {pendingListings.length} listing{pendingListings.length !== 1 ? 's' : ''} pending review
+              {pendingListings.length} listing{pendingListings.length !== 1 ? 's' : ''} pending
+              review
             </p>
             <p className="text-sm text-gray-600">Review listings to make them visible to buyers</p>
           </div>
@@ -210,9 +211,7 @@ export default function ModerationPage() {
                   <div className="flex-1">
                     <div className="flex items-start justify-between mb-3">
                       <div>
-                        <h3 className="text-xl font-semibold text-gray-900">
-                          {listing.title}
-                        </h3>
+                        <h3 className="text-xl font-semibold text-gray-900">{listing.title}</h3>
                         <p className="text-gray-600 mt-1">
                           {listing.locality?.name}, {listing.city?.name}
                         </p>
@@ -248,9 +247,7 @@ export default function ModerationPage() {
                       )}
                       <div>
                         <p className="text-sm text-gray-500">Submitted</p>
-                        <p className="font-medium text-gray-900">
-                          {formatDate(listing.updatedAt)}
-                        </p>
+                        <p className="font-medium text-gray-900">{formatDate(listing.updatedAt)}</p>
                       </div>
                     </div>
 
@@ -268,9 +265,7 @@ export default function ModerationPage() {
                           </span>
                         </div>
                         <div>
-                          <p className="text-sm font-medium text-gray-900">
-                            {listing.user?.name}
-                          </p>
+                          <p className="text-sm font-medium text-gray-900">{listing.user?.name}</p>
                           <p className="text-xs text-gray-500">{listing.user?.email}</p>
                         </div>
                       </div>
@@ -354,9 +349,7 @@ export default function ModerationPage() {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white rounded-lg shadow-xl max-w-md w-full mx-4">
             <div className="p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">
-                Reject Listing
-              </h3>
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">Reject Listing</h3>
               <p className="text-sm text-gray-600 mb-4">
                 Please provide a reason for rejecting this listing. The owner will be notified.
               </p>

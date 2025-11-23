@@ -15,7 +15,9 @@ export default function DashboardPage() {
   const [visitRequests, setVisitRequests] = useState<any[]>([]);
   const [stats, setStats] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState<'listings' | 'leads' | 'myVisits' | 'visitRequests'>('listings');
+  const [activeTab, setActiveTab] = useState<'listings' | 'leads' | 'myVisits' | 'visitRequests'>(
+    'listings'
+  );
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -28,13 +30,14 @@ export default function DashboardPage() {
   const loadDashboardData = async () => {
     setLoading(true);
     try {
-      const [listingsData, leadsData, statsData, visitsAsVisitor, visitsAsOwner] = await Promise.all([
-        api.getMyListings(),
-        api.getMyLeads(),
-        api.getLeadStats(),
-        api.getMyVisitsAsVisitor(),
-        api.getMyVisitsAsOwner(),
-      ]);
+      const [listingsData, leadsData, statsData, visitsAsVisitor, visitsAsOwner] =
+        await Promise.all([
+          api.getMyListings(),
+          api.getMyLeads(),
+          api.getLeadStats(),
+          api.getMyVisitsAsVisitor(),
+          api.getMyVisitsAsOwner(),
+        ]);
 
       setListings(listingsData.data || listingsData);
       setLeads(leadsData);
@@ -212,12 +215,7 @@ export default function DashboardPage() {
               href="/list-property"
               className="inline-flex items-center px-4 py-2 bg-primary-600 text-white rounded-md hover:bg-primary-700 font-medium"
             >
-              <svg
-                className="h-5 w-5 mr-2"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
+              <svg className="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -398,9 +396,7 @@ export default function DashboardPage() {
                       d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
                     />
                   </svg>
-                  <h3 className="mt-4 text-lg font-medium text-gray-900">
-                    No listings yet
-                  </h3>
+                  <h3 className="mt-4 text-lg font-medium text-gray-900">No listings yet</h3>
                   <p className="mt-2 text-sm text-gray-500">
                     Get started by adding your first property
                   </p>
@@ -474,19 +470,14 @@ export default function DashboardPage() {
                                   {listing.title}
                                 </div>
                                 <div className="text-sm text-gray-500">
-                                  {listing.propertyType.replace('_', ' ')} •{' '}
-                                  {listing.listingType}
+                                  {listing.propertyType.replace('_', ' ')} • {listing.listingType}
                                 </div>
                               </div>
                             </div>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
-                            <div className="text-sm text-gray-900">
-                              {listing.locality?.name}
-                            </div>
-                            <div className="text-sm text-gray-500">
-                              {listing.city?.name}
-                            </div>
+                            <div className="text-sm text-gray-900">{listing.locality?.name}</div>
+                            <div className="text-sm text-gray-500">{listing.city?.name}</div>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
                             <div className="text-sm font-medium text-gray-900">
@@ -584,9 +575,7 @@ export default function DashboardPage() {
                       {leads.map((lead) => (
                         <tr key={lead.id}>
                           <td className="px-6 py-4">
-                            <div className="text-sm font-medium text-gray-900">
-                              {lead.name}
-                            </div>
+                            <div className="text-sm font-medium text-gray-900">{lead.name}</div>
                             <div className="text-sm text-gray-500">{lead.email}</div>
                             <div className="text-sm text-gray-500">{lead.phone}</div>
                             {lead.message && (

@@ -58,9 +58,7 @@ export default function BuilderRegister() {
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Personal Information */}
             <div className="border-b border-gray-200 pb-6">
-              <h2 className="text-lg font-semibold text-gray-900 mb-4">
-                Personal Information
-              </h2>
+              <h2 className="text-lg font-semibold text-gray-900 mb-4">Personal Information</h2>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
@@ -77,9 +75,7 @@ export default function BuilderRegister() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Email *
-                  </label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Email *</label>
                   <input
                     type="email"
                     required
@@ -90,9 +86,7 @@ export default function BuilderRegister() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Phone *
-                  </label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Phone *</label>
                   <input
                     type="tel"
                     required
@@ -103,9 +97,7 @@ export default function BuilderRegister() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Password *
-                  </label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Password *</label>
                   <input
                     type="password"
                     required
@@ -120,9 +112,7 @@ export default function BuilderRegister() {
 
             {/* Company Information */}
             <div className="border-b border-gray-200 pb-6">
-              <h2 className="text-lg font-semibold text-gray-900 mb-4">
-                Company Information
-              </h2>
+              <h2 className="text-lg font-semibold text-gray-900 mb-4">Company Information</h2>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>

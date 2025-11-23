@@ -3,9 +3,7 @@ export default function AdminDashboard() {
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
-        <p className="mt-1 text-sm text-gray-600">
-          Welcome to the Housing Platform Admin Panel
-        </p>
+        <p className="mt-1 text-sm text-gray-600">Welcome to the Housing Platform Admin Panel</p>
       </div>
 
       {/* Stats Grid */}
@@ -155,7 +153,10 @@ export default function AdminDashboard() {
           </div>
         </div>
         <div className="border-t px-6 py-4">
-          <a href="/listings" className="text-sm font-medium text-primary-600 hover:text-primary-700">
+          <a
+            href="/listings"
+            className="text-sm font-medium text-primary-600 hover:text-primary-700"
+          >
             View all listings →
           </a>
         </div>

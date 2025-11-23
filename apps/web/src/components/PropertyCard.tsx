@@ -65,9 +65,7 @@ export function PropertyCard({ listing, onSave, isSaved }: PropertyCardProps) {
       <div className="p-4">
         <Link href={`/listings/${listing.id}`}>
           <div className="mb-2">
-            <h3 className="text-lg font-semibold text-gray-900 line-clamp-1">
-              {listing.title}
-            </h3>
+            <h3 className="text-lg font-semibold text-gray-900 line-clamp-1">{listing.title}</h3>
             <p className="text-sm text-gray-600">
               {listing.locality?.name}, {listing.city?.name}
             </p>
@@ -126,9 +124,7 @@ export function PropertyCard({ listing, onSave, isSaved }: PropertyCardProps) {
 
           <div className="flex items-center justify-between border-t pt-3">
             <span className="text-xs text-gray-500 capitalize">{propertyTypeLabel}</span>
-            <span className="text-xs text-gray-500">
-              {listing.viewCount || 0} views
-            </span>
+            <span className="text-xs text-gray-500">{listing.viewCount || 0} views</span>
           </div>
         </Link>
       </div>

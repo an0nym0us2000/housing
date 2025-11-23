@@ -185,9 +185,7 @@ export default function SearchPage() {
 
                 {/* City */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    City
-                  </label>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">City</label>
                   <select
                     value={filters.cityId}
                     onChange={(e) => handleFilterChange('cityId', e.target.value)}
@@ -205,9 +203,7 @@ export default function SearchPage() {
                 {/* Locality */}
                 {filters.cityId && (
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Locality
-                    </label>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Locality</label>
                     <select
                       value={filters.localityId}
                       onChange={(e) => handleFilterChange('localityId', e.target.value)}
@@ -225,9 +221,7 @@ export default function SearchPage() {
 
                 {/* BHK */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    BHK
-                  </label>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">BHK</label>
                   <select
                     value={filters.bhk}
                     onChange={(e) => handleFilterChange('bhk', e.target.value)}
@@ -267,9 +261,7 @@ export default function SearchPage() {
 
                 {/* Sort */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Sort By
-                  </label>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Sort By</label>
                   <select
                     value={`${filters.sortBy}-${filters.sortOrder}`}
                     onChange={(e) => {
@@ -307,10 +299,7 @@ export default function SearchPage() {
             {loading ? (
               <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
                 {[...Array(6)].map((_, i) => (
-                  <div
-                    key={i}
-                    className="bg-white rounded-lg shadow animate-pulse h-96"
-                  ></div>
+                  <div key={i} className="bg-white rounded-lg shadow animate-pulse h-96"></div>
                 ))}
               </div>
             ) : listings.length === 0 ? (
@@ -328,9 +317,7 @@ export default function SearchPage() {
                     d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
                   />
                 </svg>
-                <h3 className="mt-4 text-lg font-medium text-gray-900">
-                  No properties found
-                </h3>
+                <h3 className="mt-4 text-lg font-medium text-gray-900">No properties found</h3>
                 <p className="mt-2 text-sm text-gray-500">
                   Try adjusting your filters or search in a different area
                 </p>
@@ -339,11 +326,7 @@ export default function SearchPage() {
               <>
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
                   {listings.map((listing) => (
-                    <PropertyCard
-                      key={listing.id}
-                      listing={listing}
-                      onSave={handleSaveListing}
-                    />
+                    <PropertyCard key={listing.id} listing={listing} onSave={handleSaveListing} />
                   ))}
                 </div>
 

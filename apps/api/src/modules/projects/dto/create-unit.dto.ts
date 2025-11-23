@@ -1,12 +1,4 @@
-import {
-  IsString,
-  IsEnum,
-  IsOptional,
-  IsNumber,
-  IsArray,
-  Min,
-  MinLength,
-} from 'class-validator';
+import { IsString, IsEnum, IsOptional, IsNumber, IsArray, Min, MinLength } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export enum UnitType {

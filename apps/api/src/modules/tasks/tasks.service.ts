@@ -1,22 +1,22 @@
-import {
-  Injectable,
-  NotFoundException,
-  ForbiddenException,
-} from '@nestjs/common';
+import { Injectable, NotFoundException, ForbiddenException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
+import { NotificationsService } from '../notifications/notifications.service';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
 import { QueryTaskDto } from './dto/query-task.dto';
 
 @Injectable()
 export class TasksService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private notificationsService: NotificationsService
+  ) {}
 
   async create(userId: string, createTaskDto: CreateTaskDto) {
-    // Verify assignee exists
+    // Verify assignee exists and get their details
     const assignee = await this.prisma.user.findUnique({
       where: { id: createTaskDto.assignedToId },
-      select: { id: true },
+      select: { id: true, name: true, email: true },
     });
 
     if (!assignee) {
@@ -48,6 +48,11 @@ export class TasksService {
       },
     });
 
+    // Send task assigned notification (async, don't wait)
+    this.notificationsService
+      .sendTaskAssigned(task, task.assignedTo, task.createdBy)
+      .catch((error) => console.error('Failed to send task assigned notification:', error));
+
     return task;
   }
 
@@ -59,10 +64,7 @@ export class TasksService {
     const where: any = {};
 
     // Users can see tasks assigned to them or created by them
-    where.OR = [
-      { assignedToId: userId },
-      { createdById: userId },
-    ];
+    where.OR = [{ assignedToId: userId }, { createdById: userId }];
 
     if (query.status) {
       where.status = query.status;
@@ -95,11 +97,7 @@ export class TasksService {
             },
           },
         },
-        orderBy: [
-          { status: 'asc' },
-          { priority: 'desc' },
-          { dueDate: 'asc' },
-        ],
+        orderBy: [{ status: 'asc' }, { priority: 'desc' }, { dueDate: 'asc' }],
         skip,
         take: limit,
       }),
@@ -121,10 +119,7 @@ export class TasksService {
     const task = await this.prisma.task.findFirst({
       where: {
         id,
-        OR: [
-          { assignedToId: userId },
-          { createdById: userId },
-        ],
+        OR: [{ assignedToId: userId }, { createdById: userId }],
       },
       include: {
         assignedTo: {
@@ -156,10 +151,7 @@ export class TasksService {
     const task = await this.prisma.task.findFirst({
       where: {
         id,
-        OR: [
-          { assignedToId: userId },
-          { createdById: userId },
-        ],
+        OR: [{ assignedToId: userId }, { createdById: userId }],
       },
     });
 
@@ -249,11 +241,7 @@ export class TasksService {
             },
           },
         },
-        orderBy: [
-          { status: 'asc' },
-          { priority: 'desc' },
-          { dueDate: 'asc' },
-        ],
+        orderBy: [{ status: 'asc' }, { priority: 'desc' }, { dueDate: 'asc' }],
         skip,
         take: limit,
       }),
@@ -272,12 +260,7 @@ export class TasksService {
   }
 
   async getTaskStats(userId: string) {
-    const [
-      todoTasks,
-      inProgressTasks,
-      completedTasks,
-      overdueTasks,
-    ] = await Promise.all([
+    const [todoTasks, inProgressTasks, completedTasks, overdueTasks] = await Promise.all([
       this.prisma.task.count({
         where: {
           assignedToId: userId,

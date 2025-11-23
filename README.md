@@ -31,6 +31,7 @@ Housing Platform is a comprehensive real estate marketplace that connects buyers
 ## ✨ Features
 
 ### Phase 0 - Foundations (✅ Complete)
+
 - ✅ Monorepo structure with Turborepo
 - ✅ Next.js 14+ web application (buyer/tenant facing)
 - ✅ Next.js admin panel (internal operations)
@@ -45,6 +46,7 @@ Housing Platform is a comprehensive real estate marketplace that connects buyers
 ### Phase 1 - Core Marketplace MVP (✅ Complete)
 
 #### Backend APIs
+
 - ✅ User authentication (register, login, JWT)
 - ✅ Listings module (CRUD, pagination, filtering)
 - ✅ Amenities module (GET amenities by category)
@@ -55,6 +57,7 @@ Housing Platform is a comprehensive real estate marketplace that connects buyers
 - ✅ Swagger API documentation
 
 #### Web App (Buyers/Tenants)
+
 - ✅ User registration and login pages
 - ✅ Property search with advanced filters
   - Listing type, property type, city, locality
@@ -77,6 +80,7 @@ Housing Platform is a comprehensive real estate marketplace that connects buyers
   - Submit for review, delete actions
 
 #### Admin Panel
+
 - ✅ Admin authentication with role verification
 - ✅ Content moderation panel
   - Review pending listings (UNDER_REVIEW)
@@ -85,6 +89,7 @@ Housing Platform is a comprehensive real estate marketplace that connects buyers
   - Owner and property details display
 
 ### Upcoming Phases
+
 - 📅 Phase 2: Enhanced features & lead management
 - 📅 Phase 3: Broker panel and CRM
 - 📅 Phase 4: Builder projects
@@ -98,23 +103,27 @@ See [docs/05-Phased-Roadmap.md](docs/05-Phased-Roadmap.md) for detailed roadmap.
 ## 🛠 Tech Stack
 
 ### Frontend
+
 - **Framework:** Next.js 14+ (React, TypeScript, App Router)
 - **Styling:** Tailwind CSS
 - **State Management:** React Hooks
 - **HTTP Client:** Fetch API / Axios
 
 ### Backend
+
 - **Framework:** NestJS (Node.js, TypeScript)
 - **API Documentation:** Swagger/OpenAPI
 - **Authentication:** JWT (Passport.js)
 - **Validation:** class-validator
 
 ### Database & Caching
+
 - **Database:** PostgreSQL 16
 - **ORM:** Prisma
 - **Cache:** Redis 7
 
 ### DevOps & Tools
+
 - **Monorepo:** Turborepo
 - **Package Manager:** npm
 - **Containerization:** Docker & Docker Compose
@@ -122,6 +131,7 @@ See [docs/05-Phased-Roadmap.md](docs/05-Phased-Roadmap.md) for detailed roadmap.
 - **Code Quality:** ESLint, Prettier, Husky
 
 ### Future Integrations
+
 - **Search:** Elasticsearch/OpenSearch (Phase 6)
 - **Storage:** AWS S3 (Phase 1)
 - **Payments:** Razorpay (Phase 5)
@@ -161,6 +171,7 @@ Before you begin, ensure you have the following installed:
 - **Git:** >= 2.40.0
 
 Verify installations:
+
 ```bash
 node --version
 npm --version
@@ -182,6 +193,7 @@ make setup
 ```
 
 This will:
+
 1. Create `.env` from `.env.example`
 2. Install all dependencies
 3. Start Docker containers (PostgreSQL + Redis)
@@ -231,6 +243,7 @@ make dev
 ```
 
 This starts:
+
 - 🌐 Web app: http://localhost:3000
 - 🔧 Admin panel: http://localhost:3002
 - 🚀 API: http://localhost:3001
@@ -327,6 +340,7 @@ make build
 ```
 
 Build outputs:
+
 - `apps/web/.next` - Web app build
 - `apps/admin/.next` - Admin panel build
 - `apps/api/dist` - API build
@@ -338,11 +352,13 @@ Build outputs:
 Ensure you have configured the following secrets in your deployment environment:
 
 **Required:**
+
 - `DATABASE_URL` - PostgreSQL connection string
 - `JWT_SECRET` - Secret key for JWT tokens
 - `REDIS_HOST` / `REDIS_PORT` - Redis connection
 
 **Optional (Phase 1+):**
+
 - `AWS_*` - AWS S3 credentials for file uploads
 - `SMTP_*` - Email service credentials
 - `TWILIO_*` - SMS service credentials
@@ -418,6 +434,7 @@ chore: update dependencies
 ### Code Review Process
 
 All PRs require:
+
 - ✅ Passing CI checks
 - ✅ Code review approval
 - ✅ Updated tests

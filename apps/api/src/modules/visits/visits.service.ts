@@ -1,5 +1,11 @@
-import { Injectable, NotFoundException, ForbiddenException, BadRequestException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  ForbiddenException,
+  BadRequestException,
+} from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
+import { NotificationsService } from '../notifications/notifications.service';
 import { VisitStatus } from '@housing/database';
 import { CreateVisitDto } from './dto/create-visit.dto';
 import { UpdateVisitDto } from './dto/update-visit.dto';
@@ -7,7 +13,10 @@ import { QueryVisitDto } from './dto/query-visit.dto';
 
 @Injectable()
 export class VisitsService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private notificationsService: NotificationsService
+  ) {}
 
   async create(userId: string, data: CreateVisitDto) {
     // Get listing to check ownership
@@ -290,8 +299,10 @@ export class VisitsService {
       },
     });
 
-    // TODO: Create notification for visitor
-    // await this.createNotification(updatedVisit.visitorId, 'VISIT_CONFIRMED', visit.id);
+    // Send visit confirmation notification (async, don't wait)
+    this.notificationsService
+      .sendVisitConfirmation(updatedVisit, updatedVisit.listing, updatedVisit.visitor)
+      .catch((error) => console.error('Failed to send visit confirmation notification:', error));
 
     return updatedVisit;
   }
@@ -336,8 +347,9 @@ export class VisitsService {
     });
 
     // TODO: Create notification for the other party
-    const notifyUserId = visit.ownerId === userId ? visit.visitorId : visit.ownerId;
-    // await this.createNotification(notifyUserId, 'VISIT_RESCHEDULED', visit.id);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const _notifyUserId = visit.ownerId === userId ? visit.visitorId : visit.ownerId;
+    // await this.createNotification(_notifyUserId, 'VISIT_RESCHEDULED', visit.id);
 
     return updatedVisit;
   }

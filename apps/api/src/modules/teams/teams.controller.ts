@@ -37,7 +37,7 @@ export class TeamsController {
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Get all teams where user is a member' })
-  @ApiResponse({ status: 200, description: 'Returns user\'s teams' })
+  @ApiResponse({ status: 200, description: "Returns user's teams" })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   findAll(@Request() req) {
     return this.teamsService.findAll(req.user.id);
@@ -64,11 +64,7 @@ export class TeamsController {
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @ApiResponse({ status: 403, description: 'Forbidden - Not authorized' })
   @ApiResponse({ status: 404, description: 'Team not found' })
-  update(
-    @Param('id') id: string,
-    @Request() req,
-    @Body() updateTeamDto: UpdateTeamDto,
-  ) {
+  update(@Param('id') id: string, @Request() req, @Body() updateTeamDto: UpdateTeamDto) {
     return this.teamsService.update(id, req.user.id, updateTeamDto);
   }
 
@@ -93,11 +89,7 @@ export class TeamsController {
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @ApiResponse({ status: 403, description: 'Forbidden - Not authorized' })
   @ApiResponse({ status: 404, description: 'Team or user not found' })
-  addMember(
-    @Param('id') id: string,
-    @Request() req,
-    @Body() addMemberDto: AddTeamMemberDto,
-  ) {
+  addMember(@Param('id') id: string, @Request() req, @Body() addMemberDto: AddTeamMemberDto) {
     return this.teamsService.addMember(id, req.user.id, addMemberDto);
   }
 
@@ -109,11 +101,7 @@ export class TeamsController {
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @ApiResponse({ status: 403, description: 'Forbidden - Cannot remove owner' })
   @ApiResponse({ status: 404, description: 'Team or member not found' })
-  removeMember(
-    @Param('id') id: string,
-    @Param('memberId') memberId: string,
-    @Request() req,
-  ) {
+  removeMember(@Param('id') id: string, @Param('memberId') memberId: string, @Request() req) {
     return this.teamsService.removeMember(id, memberId, req.user.id);
   }
 
@@ -129,7 +117,7 @@ export class TeamsController {
     @Param('id') id: string,
     @Param('memberId') memberId: string,
     @Request() req,
-    @Body() body: { role: string },
+    @Body() body: { role: string }
   ) {
     return this.teamsService.updateMemberRole(id, memberId, req.user.id, body.role);
   }

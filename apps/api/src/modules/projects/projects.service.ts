@@ -42,9 +42,7 @@ export class ProjectsService {
     const project = await this.prisma.project.create({
       data: {
         ...createProjectDto,
-        launchDate: createProjectDto.launchDate
-          ? new Date(createProjectDto.launchDate)
-          : null,
+        launchDate: createProjectDto.launchDate ? new Date(createProjectDto.launchDate) : null,
         possessionDate: createProjectDto.possessionDate
           ? new Date(createProjectDto.possessionDate)
           : null,
@@ -247,9 +245,7 @@ export class ProjectsService {
       where: { id },
       data: {
         ...updateProjectDto,
-        launchDate: updateProjectDto.launchDate
-          ? new Date(updateProjectDto.launchDate)
-          : undefined,
+        launchDate: updateProjectDto.launchDate ? new Date(updateProjectDto.launchDate) : undefined,
         possessionDate: updateProjectDto.possessionDate
           ? new Date(updateProjectDto.possessionDate)
           : undefined,
@@ -396,8 +392,8 @@ export class ProjectsService {
             ...unit,
             projectId,
           },
-        }),
-      ),
+        })
+      )
     );
 
     return {
@@ -426,11 +422,7 @@ export class ProjectsService {
       include: {
         tower: true,
       },
-      orderBy: [
-        { tower: { name: 'asc' } },
-        { floor: 'asc' },
-        { unitNumber: 'asc' },
-      ],
+      orderBy: [{ tower: { name: 'asc' } }, { floor: 'asc' }, { unitNumber: 'asc' }],
     });
 
     return units;

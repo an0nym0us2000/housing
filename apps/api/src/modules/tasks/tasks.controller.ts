@@ -83,11 +83,7 @@ export class TasksController {
   @ApiResponse({ status: 400, description: 'Bad request' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @ApiResponse({ status: 404, description: 'Task not found' })
-  update(
-    @Param('id') id: string,
-    @Request() req,
-    @Body() updateTaskDto: UpdateTaskDto,
-  ) {
+  update(@Param('id') id: string, @Request() req, @Body() updateTaskDto: UpdateTaskDto) {
     return this.tasksService.update(id, req.user.id, updateTaskDto);
   }
 

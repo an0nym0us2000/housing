@@ -62,6 +62,7 @@ This implementation plan is organized into multiple documents for better readabi
 **Full Platform Completion:** 6-9 months
 
 **Tech Stack:**
+
 - Frontend: Next.js 14+ (React + TypeScript), Tailwind CSS
 - Backend: NestJS (Node.js + TypeScript)
 - Database: PostgreSQL (Prisma ORM)

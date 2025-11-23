@@ -10,12 +10,7 @@ import {
   UseGuards,
   Request,
 } from '@nestjs/common';
-import {
-  ApiTags,
-  ApiOperation,
-  ApiResponse,
-  ApiBearerAuth,
-} from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
 import { ProjectsService } from './projects.service';
 import { CreateProjectDto } from './dto/create-project.dto';
 import { UpdateProjectDto } from './dto/update-project.dto';
@@ -49,8 +44,8 @@ export class ProjectsController {
   @Get('my-projects')
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
-  @ApiOperation({ summary: 'Get builder\'s own projects' })
-  @ApiResponse({ status: 200, description: 'Returns builder\'s projects' })
+  @ApiOperation({ summary: "Get builder's own projects" })
+  @ApiResponse({ status: 200, description: "Returns builder's projects" })
   getMyProjects(@Request() req) {
     return this.projectsService.getMyProjects(req.user.id);
   }
@@ -78,11 +73,7 @@ export class ProjectsController {
   @ApiResponse({ status: 200, description: 'Project updated successfully' })
   @ApiResponse({ status: 403, description: 'Forbidden' })
   @ApiResponse({ status: 404, description: 'Project not found' })
-  update(
-    @Param('id') id: string,
-    @Request() req,
-    @Body() updateProjectDto: UpdateProjectDto,
-  ) {
+  update(@Param('id') id: string, @Request() req, @Body() updateProjectDto: UpdateProjectDto) {
     return this.projectsService.update(id, req.user.id, updateProjectDto);
   }
 
@@ -103,11 +94,7 @@ export class ProjectsController {
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Add tower to project' })
   @ApiResponse({ status: 201, description: 'Tower created successfully' })
-  createTower(
-    @Param('id') id: string,
-    @Request() req,
-    @Body() createTowerDto: CreateTowerDto,
-  ) {
+  createTower(@Param('id') id: string, @Request() req, @Body() createTowerDto: CreateTowerDto) {
     return this.projectsService.createTower(id, req.user.id, createTowerDto);
   }
 
@@ -125,11 +112,7 @@ export class ProjectsController {
   @ApiOperation({ summary: 'Add unit to project' })
   @ApiResponse({ status: 201, description: 'Unit created successfully' })
   @ApiResponse({ status: 400, description: 'Unit number already exists' })
-  createUnit(
-    @Param('id') id: string,
-    @Request() req,
-    @Body() createUnitDto: CreateUnitDto,
-  ) {
+  createUnit(@Param('id') id: string, @Request() req, @Body() createUnitDto: CreateUnitDto) {
     return this.projectsService.createUnit(id, req.user.id, createUnitDto);
   }
 
@@ -141,13 +124,9 @@ export class ProjectsController {
   bulkCreateUnits(
     @Param('id') id: string,
     @Request() req,
-    @Body() bulkCreateUnitsDto: BulkCreateUnitsDto,
+    @Body() bulkCreateUnitsDto: BulkCreateUnitsDto
   ) {
-    return this.projectsService.bulkCreateUnits(
-      id,
-      req.user.id,
-      bulkCreateUnitsDto,
-    );
+    return this.projectsService.bulkCreateUnits(id, req.user.id, bulkCreateUnitsDto);
   }
 
   @Get(':id/units')
@@ -162,11 +141,7 @@ export class ProjectsController {
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Update unit' })
   @ApiResponse({ status: 200, description: 'Unit updated successfully' })
-  updateUnit(
-    @Param('unitId') unitId: string,
-    @Request() req,
-    @Body() updateData: any,
-  ) {
+  updateUnit(@Param('unitId') unitId: string, @Request() req, @Body() updateData: any) {
     return this.projectsService.updateUnit(unitId, req.user.id, updateData);
   }
 

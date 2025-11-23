@@ -440,16 +440,16 @@ This phase is conceptual for now, detailed planning later.
 
 ## ROADMAP SUMMARY
 
-| Phase | Duration | Key Features | User Roles |
-|-------|----------|--------------|------------|
-| 0 | 1-2 weeks | Foundations, CI/CD, Auth | Dev team |
-| 1 | 4-6 weeks | Core marketplace, listings, search, moderation | Buyer, Owner, Admin |
-| 2 | 3-4 weeks | Leads, visits, chat | Buyer, Owner |
-| 3 | 4-5 weeks | Broker panel, CRM, team management | Broker, Agent |
-| 4 | 5-6 weeks | Builder projects, inventory, campaigns | Builder |
-| 5 | 4-5 weeks | Monetization, payments, subscriptions | All paid users |
-| 6 | 4-5 weeks | Elasticsearch, SEO, price trends | All users |
-| 7 | 5-6 weeks | Admin tools, support, analytics | Internal teams |
-| 8 | 8-10 weeks | Mobile, AI, advanced features | All users |
+| Phase | Duration   | Key Features                                   | User Roles          |
+| ----- | ---------- | ---------------------------------------------- | ------------------- |
+| 0     | 1-2 weeks  | Foundations, CI/CD, Auth                       | Dev team            |
+| 1     | 4-6 weeks  | Core marketplace, listings, search, moderation | Buyer, Owner, Admin |
+| 2     | 3-4 weeks  | Leads, visits, chat                            | Buyer, Owner        |
+| 3     | 4-5 weeks  | Broker panel, CRM, team management             | Broker, Agent       |
+| 4     | 5-6 weeks  | Builder projects, inventory, campaigns         | Builder             |
+| 5     | 4-5 weeks  | Monetization, payments, subscriptions          | All paid users      |
+| 6     | 4-5 weeks  | Elasticsearch, SEO, price trends               | All users           |
+| 7     | 5-6 weeks  | Admin tools, support, analytics                | Internal teams      |
+| 8     | 8-10 weeks | Mobile, AI, advanced features                  | All users           |
 
 **Total Timeline:** 6-9 months for Phases 0-7 (full web platform)

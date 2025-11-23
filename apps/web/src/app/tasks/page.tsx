@@ -224,15 +224,22 @@ export default function TasksPage() {
         ) : (
           <div className="space-y-4">
             {tasks.map((task) => (
-              <div key={task.id} className={`bg-white rounded-lg shadow-md p-6 ${isOverdue(task.dueDate, task.status) ? 'border-l-4 border-red-500' : ''}`}>
+              <div
+                key={task.id}
+                className={`bg-white rounded-lg shadow-md p-6 ${isOverdue(task.dueDate, task.status) ? 'border-l-4 border-red-500' : ''}`}
+              >
                 <div className="flex justify-between items-start">
                   <div className="flex-1">
                     <div className="flex items-center gap-3 mb-2">
                       <h3 className="text-lg font-semibold text-gray-900">{task.title}</h3>
-                      <span className={`px-2 py-1 text-xs rounded-full ${getPriorityColor(task.priority)}`}>
+                      <span
+                        className={`px-2 py-1 text-xs rounded-full ${getPriorityColor(task.priority)}`}
+                      >
                         {task.priority}
                       </span>
-                      <span className={`px-2 py-1 text-xs rounded-full ${getStatusColor(task.status)}`}>
+                      <span
+                        className={`px-2 py-1 text-xs rounded-full ${getStatusColor(task.status)}`}
+                      >
                         {task.status.replace('_', ' ')}
                       </span>
                       {isOverdue(task.dueDate, task.status) && (
@@ -241,14 +248,10 @@ export default function TasksPage() {
                         </span>
                       )}
                     </div>
-                    {task.description && (
-                      <p className="text-gray-600 mb-3">{task.description}</p>
-                    )}
+                    {task.description && <p className="text-gray-600 mb-3">{task.description}</p>}
                     <div className="flex items-center gap-4 text-sm text-gray-500">
                       <span>Due: {formatDate(task.dueDate)}</span>
-                      {task.createdBy && (
-                        <span>Created by: {task.createdBy.name}</span>
-                      )}
+                      {task.createdBy && <span>Created by: {task.createdBy.name}</span>}
                     </div>
                   </div>
                   <div className="flex gap-2">
@@ -320,9 +323,7 @@ export default function TasksPage() {
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Priority
-                    </label>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Priority</label>
                     <select
                       className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                       value={createForm.priority}
@@ -335,9 +336,7 @@ export default function TasksPage() {
                     </select>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Due Date
-                    </label>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Due Date</label>
                     <input
                       type="date"
                       className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"

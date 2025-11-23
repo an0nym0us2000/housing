@@ -9,12 +9,7 @@ import {
   Min,
   IsArray,
 } from 'class-validator';
-import {
-  ListingType,
-  PropertyType,
-  FurnishingStatus,
-  AvailabilityStatus,
-} from '@housing/database';
+import { ListingType, PropertyType, FurnishingStatus, AvailabilityStatus } from '@housing/database';
 
 export class CreateListingDto {
   @ApiProperty({ example: 'Luxurious 3 BHK Apartment in Koramangala' })

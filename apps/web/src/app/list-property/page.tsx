@@ -5,14 +5,7 @@ import { useRouter } from 'next/navigation';
 import { api } from '@/lib/api';
 import { useAuth } from '@/contexts/AuthContext';
 
-const STEPS = [
-  'Basic Info',
-  'Location',
-  'Property Details',
-  'Amenities',
-  'Photos',
-  'Review',
-];
+const STEPS = ['Basic Info', 'Location', 'Property Details', 'Amenities', 'Photos', 'Review'];
 
 export default function ListPropertyPage() {
   const router = useRouter();
@@ -141,11 +134,16 @@ export default function ListPropertyPage() {
   const validateStep = (step: number): boolean => {
     switch (step) {
       case 0:
-        return !!(formData.title && formData.description && formData.listingType && formData.propertyType);
+        return !!(
+          formData.title &&
+          formData.description &&
+          formData.listingType &&
+          formData.propertyType
+        );
       case 1:
         return !!(formData.cityId && formData.localityId);
       case 2:
-        return !!(formData.price);
+        return !!formData.price;
       case 3:
         return true; // Amenities are optional
       case 4:
@@ -200,7 +198,8 @@ export default function ListPropertyPage() {
       if (formData.floor) listingData.floor = parseInt(formData.floor);
       if (formData.totalFloors) listingData.totalFloors = parseInt(formData.totalFloors);
       if (formData.ageOfProperty) listingData.ageOfProperty = formData.ageOfProperty;
-      if (formData.availableFrom) listingData.availableFrom = new Date(formData.availableFrom).toISOString();
+      if (formData.availableFrom)
+        listingData.availableFrom = new Date(formData.availableFrom).toISOString();
       if (formData.parking) listingData.parking = parseInt(formData.parking);
 
       // Photos
@@ -259,9 +258,7 @@ export default function ListPropertyPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Description *
-              </label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Description *</label>
               <textarea
                 value={formData.description}
                 onChange={(e) => handleChange('description', e.target.value)}
@@ -316,9 +313,7 @@ export default function ListPropertyPage() {
 
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  City *
-                </label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">City *</label>
                 <select
                   value={formData.cityId}
                   onChange={(e) => handleChange('cityId', e.target.value)}
@@ -335,9 +330,7 @@ export default function ListPropertyPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Locality *
-                </label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Locality *</label>
                 <select
                   value={formData.localityId}
                   onChange={(e) => handleChange('localityId', e.target.value)}
@@ -356,9 +349,7 @@ export default function ListPropertyPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Address
-              </label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Address</label>
               <input
                 type="text"
                 value={formData.address}
@@ -370,9 +361,7 @@ export default function ListPropertyPage() {
 
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Landmark
-                </label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Landmark</label>
                 <input
                   type="text"
                   value={formData.landmark}
@@ -383,9 +372,7 @@ export default function ListPropertyPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Pincode
-                </label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Pincode</label>
                 <input
                   type="text"
                   value={formData.pincode}
@@ -405,9 +392,7 @@ export default function ListPropertyPage() {
 
             <div className="grid grid-cols-3 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  BHK
-                </label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">BHK</label>
                 <select
                   value={formData.bhk}
                   onChange={(e) => handleChange('bhk', e.target.value)}
@@ -423,9 +408,7 @@ export default function ListPropertyPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Bathrooms
-                </label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Bathrooms</label>
                 <input
                   type="number"
                   value={formData.bathrooms}
@@ -436,9 +419,7 @@ export default function ListPropertyPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Balconies
-                </label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Balconies</label>
                 <input
                   type="number"
                   value={formData.balconies}
@@ -495,9 +476,7 @@ export default function ListPropertyPage() {
 
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Price (₹) *
-                </label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Price (₹) *</label>
                 <input
                   type="number"
                   value={formData.price}
@@ -524,9 +503,7 @@ export default function ListPropertyPage() {
 
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Furnishing
-                </label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Furnishing</label>
                 <select
                   value={formData.furnishing}
                   onChange={(e) => handleChange('furnishing', e.target.value)}
@@ -539,9 +516,7 @@ export default function ListPropertyPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Facing
-                </label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Facing</label>
                 <select
                   value={formData.facing}
                   onChange={(e) => handleChange('facing', e.target.value)}
@@ -562,9 +537,7 @@ export default function ListPropertyPage() {
 
             <div className="grid grid-cols-3 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Floor
-                </label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Floor</label>
                 <input
                   type="number"
                   value={formData.floor}
@@ -575,9 +548,7 @@ export default function ListPropertyPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Total Floors
-                </label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Total Floors</label>
                 <input
                   type="number"
                   value={formData.totalFloors}
@@ -588,9 +559,7 @@ export default function ListPropertyPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Parking
-                </label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Parking</label>
                 <input
                   type="number"
                   value={formData.parking}
@@ -655,7 +624,9 @@ export default function ListPropertyPage() {
                   />
                   <div>
                     <div className="font-medium text-gray-900">{amenity.name}</div>
-                    <div className="text-xs text-gray-500 capitalize">{amenity.category.toLowerCase()}</div>
+                    <div className="text-xs text-gray-500 capitalize">
+                      {amenity.category.toLowerCase()}
+                    </div>
                   </div>
                 </label>
               ))}
@@ -671,7 +642,9 @@ export default function ListPropertyPage() {
         return (
           <div className="space-y-6">
             <h2 className="text-2xl font-bold text-gray-900">Photos</h2>
-            <p className="text-gray-600">Add photo URLs for your property (upload feature coming soon)</p>
+            <p className="text-gray-600">
+              Add photo URLs for your property (upload feature coming soon)
+            </p>
 
             <div className="space-y-4">
               {formData.photos.map((photo, index) => (
@@ -706,8 +679,8 @@ export default function ListPropertyPage() {
 
             <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
               <p className="text-sm text-blue-800">
-                <strong>Tip:</strong> You can use image hosting services like Imgur or direct image URLs.
-                Direct file upload will be available in future updates.
+                <strong>Tip:</strong> You can use image hosting services like Imgur or direct image
+                URLs. Direct file upload will be available in future updates.
               </p>
             </div>
           </div>

@@ -13,6 +13,7 @@ Phase 1 - Core Marketplace MVP has been successfully completed! The Housing Plat
 ### Backend API (NestJS)
 
 #### 1. **Listings Module** - `apps/api/src/modules/listings/`
+
 - **Endpoints:**
   - `POST /listings` - Create listing (auth required)
   - `GET /listings` - Get all listings with filters & pagination
@@ -34,16 +35,19 @@ Phase 1 - Core Marketplace MVP has been successfully completed! The Housing Plat
   - Lead count aggregation
 
 #### 2. **Amenities Module** - `apps/api/src/modules/amenities/`
+
 - **Endpoints:**
   - `GET /amenities` - Get all amenities
   - `GET /amenities?category=SAFETY` - Filter by category
 
 #### 3. **Locations Module** - `apps/api/src/modules/locations/`
+
 - **Endpoints:**
   - `GET /locations/cities` - Get all cities with search
   - `GET /locations/cities/:id/localities` - Get localities by city with search
 
 #### 4. **Leads Module** - `apps/api/src/modules/leads/`
+
 - **Endpoints:**
   - `POST /leads` - Create lead/inquiry
   - `GET /leads/my-leads` - Get owner's leads (auth required)
@@ -54,6 +58,7 @@ Phase 1 - Core Marketplace MVP has been successfully completed! The Housing Plat
   - Lead status management (NEW, CONTACTED, QUALIFIED, CONVERTED, LOST)
 
 #### 5. **Saved Listings Module** - `apps/api/src/modules/saved-listings/`
+
 - **Endpoints:**
   - `POST /saved-listings/:listingId` - Save listing (auth required)
   - `DELETE /saved-listings/:listingId` - Unsave listing (auth required)
@@ -63,6 +68,7 @@ Phase 1 - Core Marketplace MVP has been successfully completed! The Housing Plat
 ### Web App (Next.js) - `apps/web/`
 
 #### 1. **Authentication Pages**
+
 - **Login** - `/login`
   - Email/password form
   - Error handling
@@ -74,6 +80,7 @@ Phase 1 - Core Marketplace MVP has been successfully completed! The Housing Plat
   - Auto-login after registration
 
 #### 2. **Property Search** - `/search`
+
 - **Filters Sidebar:**
   - Listing type (Sale/Rent)
   - Property type (Apartment, Villa, House, Plot, Commercial)
@@ -92,6 +99,7 @@ Phase 1 - Core Marketplace MVP has been successfully completed! The Housing Plat
   - Save/unsave property buttons
 
 #### 3. **Property Detail Page** - `/listings/[id]`
+
 - **Components:**
   - Image gallery with primary image
   - Full property details (BHK, area, price, furnishing, etc.)
@@ -108,6 +116,7 @@ Phase 1 - Core Marketplace MVP has been successfully completed! The Housing Plat
   - Formatted prices (Lakhs/Crores)
 
 #### 4. **Property Listing Form** - `/list-property`
+
 - **6-Step Wizard:**
   1. **Basic Info:** Title, description, listing type, property type
   2. **Location:** City, locality, address, landmark, pincode
@@ -124,6 +133,7 @@ Phase 1 - Core Marketplace MVP has been successfully completed! The Housing Plat
   - Redirects to dashboard after creation
 
 #### 5. **Owner Dashboard** - `/dashboard`
+
 - **Statistics Cards:**
   - Total listings count
   - Published listings count
@@ -146,6 +156,7 @@ Phase 1 - Core Marketplace MVP has been successfully completed! The Housing Plat
   - Empty state when no leads
 
 #### 6. **Shared Components**
+
 - **Header** - `src/components/Header.tsx`
   - Dynamic auth state (Login/Logout)
   - Role-based navigation
@@ -173,6 +184,7 @@ Phase 1 - Core Marketplace MVP has been successfully completed! The Housing Plat
 ### Admin Panel (Next.js) - `apps/admin/`
 
 #### 1. **Admin Infrastructure**
+
 - **API Client** - `src/lib/api.ts`
   - Admin-specific endpoints
   - Separate `admin_token` for auth
@@ -189,6 +201,7 @@ Phase 1 - Core Marketplace MVP has been successfully completed! The Housing Plat
   - AuthProvider integration
 
 #### 2. **Moderation Panel** - `/moderation`
+
 - **Features:**
   - Lists all UNDER_REVIEW status listings
   - Full property details display
@@ -205,6 +218,7 @@ Phase 1 - Core Marketplace MVP has been successfully completed! The Housing Plat
 ## Database Schema Updates
 
 No schema changes were needed - existing schema from Phase 0 supported all Phase 1 features:
+
 - User, Listing, Media, Amenity, ListingAmenity
 - Lead, SavedListing
 - City, Locality
@@ -213,6 +227,7 @@ No schema changes were needed - existing schema from Phase 0 supported all Phase
 ## API Documentation
 
 All endpoints are documented with Swagger at:
+
 - http://localhost:3001/api-docs
 
 ## Git Commits
@@ -220,6 +235,7 @@ All endpoints are documented with Swagger at:
 All work committed to branch: `claude/update-docs-01FLSNdKfPqoHy7NA97nnYZ3`
 
 **Commits made:**
+
 1. `feat(web): add search page and property detail page`
 2. `feat(web): add property listing form wizard`
 3. `feat(web): add owner dashboard with listings and leads management`
@@ -229,6 +245,7 @@ All work committed to branch: `claude/update-docs-01FLSNdKfPqoHy7NA97nnYZ3`
 ## How to Test
 
 ### 1. **Start the Application**
+
 ```bash
 # Make sure Docker is running
 make setup    # First time only
@@ -236,6 +253,7 @@ make dev      # Start all apps
 ```
 
 ### 2. **Access Applications**
+
 - Web: http://localhost:3000
 - Admin: http://localhost:3002
 - API: http://localhost:3001
@@ -244,6 +262,7 @@ make dev      # Start all apps
 ### 3. **Test User Flows**
 
 #### Buyer Flow:
+
 1. Register at /register (choose BUYER role)
 2. Search properties at /search
 3. Filter by city, BHK, price
@@ -252,6 +271,7 @@ make dev      # Start all apps
 6. Fill contact form to create lead
 
 #### Owner Flow:
+
 1. Register at /register (choose OWNER role)
 2. Create property at /list-property
 3. Fill 6-step wizard
@@ -261,6 +281,7 @@ make dev      # Start all apps
 7. View leads in "Leads" tab
 
 #### Admin Flow:
+
 1. Login at /moderation with admin credentials
    - Email: `admin@housing.com` (from seed data)
    - Password: from .env or seed script
@@ -271,6 +292,7 @@ make dev      # Start all apps
 ## Technical Highlights
 
 ### Architecture Decisions
+
 - **Client Components:** All interactive pages use `'use client'` directive
 - **API Client Pattern:** Centralized fetch wrapper with automatic auth
 - **Context API:** Used for auth state (no Redux needed for MVP)
@@ -279,6 +301,7 @@ make dev      # Start all apps
 - **Optimistic UI:** Loading states and disabled buttons during actions
 
 ### Code Quality
+
 - TypeScript throughout
 - Consistent naming conventions
 - Reusable components
@@ -287,6 +310,7 @@ make dev      # Start all apps
 - Responsive design with Tailwind
 
 ### Security
+
 - JWT authentication
 - Owner permission checks on backend
 - Admin role verification
@@ -297,6 +321,7 @@ make dev      # Start all apps
 ## Known Limitations
 
 ### Current Implementation
+
 1. **Image Upload:** Uses URL inputs instead of file upload (S3 integration planned for Phase 2)
 2. **Email Notifications:** Not yet implemented (Phase 2)
 3. **SMS Alerts:** Not yet implemented (Phase 2)
@@ -304,6 +329,7 @@ make dev      # Start all apps
 5. **Analytics:** No tracking of views, clicks (Phase 6)
 
 ### Future Enhancements
+
 - Real image upload to S3
 - Email notifications for leads, status changes
 - SMS alerts for important events
@@ -349,6 +375,7 @@ Based on the roadmap, Phase 2 could include:
 ## Success Metrics
 
 Phase 1 MVP is production-ready with:
+
 - ✅ 40+ API endpoints
 - ✅ 8 backend modules
 - ✅ 7 frontend pages
@@ -361,6 +388,7 @@ Phase 1 MVP is production-ready with:
 ## Conclusion
 
 Phase 1 is **feature-complete** and ready for:
+
 1. User acceptance testing
 2. Production deployment (after environment setup)
 3. Phase 2 feature development

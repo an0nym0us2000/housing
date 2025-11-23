@@ -97,10 +97,16 @@ export default function CreateProjectPage() {
       if (formData.priceMax) projectData.priceMax = parseFloat(formData.priceMax);
 
       if (formData.amenities) {
-        projectData.amenities = formData.amenities.split(',').map(a => a.trim()).filter(Boolean);
+        projectData.amenities = formData.amenities
+          .split(',')
+          .map((a) => a.trim())
+          .filter(Boolean);
       }
       if (formData.features) {
-        projectData.features = formData.features.split(',').map(f => f.trim()).filter(Boolean);
+        projectData.features = formData.features
+          .split(',')
+          .map((f) => f.trim())
+          .filter(Boolean);
       }
 
       const project = await api.createProject(projectData);
@@ -201,9 +207,7 @@ export default function CreateProjectPage() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    City *
-                  </label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">City *</label>
                   <select
                     required
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -220,9 +224,7 @@ export default function CreateProjectPage() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Locality
-                  </label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Locality</label>
                   <select
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     value={formData.localityId}
@@ -239,9 +241,7 @@ export default function CreateProjectPage() {
                 </div>
 
                 <div className="md:col-span-2">
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Address *
-                  </label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Address *</label>
                   <textarea
                     required
                     rows={2}
@@ -253,9 +253,7 @@ export default function CreateProjectPage() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Pincode
-                  </label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Pincode</label>
                   <input
                     type="text"
                     placeholder="e.g., 560066"
@@ -390,9 +388,7 @@ export default function CreateProjectPage() {
 
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Amenities
-                  </label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Amenities</label>
                   <input
                     type="text"
                     placeholder="Swimming Pool, Gym, Clubhouse, Children Play Area (comma separated)"
@@ -404,9 +400,7 @@ export default function CreateProjectPage() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Features
-                  </label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Features</label>
                   <input
                     type="text"
                     placeholder="24x7 Security, Power Backup, Lift, Parking (comma separated)"

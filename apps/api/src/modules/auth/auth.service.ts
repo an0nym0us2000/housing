@@ -2,6 +2,7 @@ import { Injectable, UnauthorizedException, ConflictException } from '@nestjs/co
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { UsersService } from '../users/users.service';
+import { NotificationsService } from '../notifications/notifications.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
 
@@ -10,6 +11,7 @@ export class AuthService {
   constructor(
     private readonly usersService: UsersService,
     private readonly jwtService: JwtService,
+    private readonly notificationsService: NotificationsService
   ) {}
 
   async register(registerDto: RegisterDto) {
@@ -28,8 +30,18 @@ export class AuthService {
       password: hashedPassword,
     });
 
+    // Send welcome email (async, don't wait)
+    this.notificationsService
+      .sendWelcomeEmail({
+        email: user.email,
+        name: user.name,
+        id: user.id,
+      })
+      .catch((error) => console.error('Failed to send welcome email:', error));
+
     // Remove password from response
-    const { password, ...result } = user;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { password: _password, ...result } = user;
 
     return {
       message: 'User successfully registered',
@@ -55,7 +67,8 @@ export class AuthService {
     const accessToken = this.jwtService.sign(payload);
 
     // Remove password from response
-    const { password, ...userWithoutPassword } = user;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { password: _password2, ...userWithoutPassword } = user;
 
     return {
       message: 'Login successful',

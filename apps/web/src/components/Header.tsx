@@ -14,10 +14,16 @@ export function Header() {
             Housing Platform
           </Link>
           <nav className="hidden md:flex items-center gap-6">
-            <Link href="/search?listingType=SALE" className="text-sm font-medium hover:text-primary-600">
+            <Link
+              href="/search?listingType=SALE"
+              className="text-sm font-medium hover:text-primary-600"
+            >
               Buy
             </Link>
-            <Link href="/search?listingType=RENT" className="text-sm font-medium hover:text-primary-600">
+            <Link
+              href="/search?listingType=RENT"
+              className="text-sm font-medium hover:text-primary-600"
+            >
               Rent
             </Link>
             {isAuthenticated && user?.role === 'OWNER' && (
@@ -31,17 +37,11 @@ export function Header() {
           {isAuthenticated ? (
             <>
               {user?.role === 'OWNER' && (
-                <Link
-                  href="/dashboard"
-                  className="text-sm font-medium hover:text-primary-600"
-                >
+                <Link href="/dashboard" className="text-sm font-medium hover:text-primary-600">
                   Dashboard
                 </Link>
               )}
-              <Link
-                href="/saved"
-                className="text-sm font-medium hover:text-primary-600"
-              >
+              <Link href="/saved" className="text-sm font-medium hover:text-primary-600">
                 Saved
               </Link>
               <div className="flex items-center gap-2">
@@ -56,10 +56,7 @@ export function Header() {
             </>
           ) : (
             <>
-              <Link
-                href="/login"
-                className="text-sm font-medium hover:text-primary-600"
-              >
+              <Link href="/login" className="text-sm font-medium hover:text-primary-600">
                 Login
               </Link>
               <Link

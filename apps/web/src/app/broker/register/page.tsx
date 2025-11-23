@@ -59,9 +59,7 @@ export default function BrokerRegister() {
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Personal Information */}
             <div className="border-b border-gray-200 pb-6">
-              <h2 className="text-lg font-semibold text-gray-900 mb-4">
-                Personal Information
-              </h2>
+              <h2 className="text-lg font-semibold text-gray-900 mb-4">Personal Information</h2>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
@@ -78,9 +76,7 @@ export default function BrokerRegister() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Email *
-                  </label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Email *</label>
                   <input
                     type="email"
                     required
@@ -91,9 +87,7 @@ export default function BrokerRegister() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Phone *
-                  </label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Phone *</label>
                   <input
                     type="tel"
                     required
@@ -104,9 +98,7 @@ export default function BrokerRegister() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Password *
-                  </label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Password *</label>
                   <input
                     type="password"
                     required
@@ -121,9 +113,7 @@ export default function BrokerRegister() {
 
             {/* Company Information */}
             <div className="border-b border-gray-200 pb-6">
-              <h2 className="text-lg font-semibold text-gray-900 mb-4">
-                Company Information
-              </h2>
+              <h2 className="text-lg font-semibold text-gray-900 mb-4">Company Information</h2>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
@@ -153,9 +143,7 @@ export default function BrokerRegister() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    GST Number
-                  </label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">GST Number</label>
                   <input
                     type="text"
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -184,7 +172,8 @@ export default function BrokerRegister() {
               <div className="bg-blue-50 border border-blue-200 rounded-md p-4">
                 <p className="text-sm text-blue-800">
                   By registering as a broker, you agree to our terms of service and privacy policy.
-                  You will be able to create teams, manage agents, and list properties on behalf of your clients.
+                  You will be able to create teams, manage agents, and list properties on behalf of
+                  your clients.
                 </p>
               </div>
 

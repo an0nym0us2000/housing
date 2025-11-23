@@ -70,10 +70,7 @@ export default function ProjectDetailPage() {
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
           <p className="text-gray-600 mb-4">Project not found</p>
-          <button
-            onClick={() => router.push('/')}
-            className="text-blue-600 hover:underline"
-          >
+          <button onClick={() => router.push('/')} className="text-blue-600 hover:underline">
             Go to Home
           </button>
         </div>
@@ -86,11 +83,7 @@ export default function ProjectDetailPage() {
       {/* Hero Image */}
       {project.images && project.images.length > 0 ? (
         <div className="h-96 bg-gray-200 overflow-hidden">
-          <img
-            src={project.images[0]}
-            alt={project.name}
-            className="w-full h-full object-cover"
-          />
+          <img src={project.images[0]} alt={project.name} className="w-full h-full object-cover" />
         </div>
       ) : (
         <div className="h-96 bg-gray-200 flex items-center justify-center">
@@ -109,14 +102,19 @@ export default function ProjectDetailPage() {
                 <div>
                   <h1 className="text-3xl font-bold text-gray-900 mb-2">{project.name}</h1>
                   <p className="text-gray-600">
-                    📍 {project.locality?.name ? `${project.locality.name}, ` : ''}{project.city?.name}
+                    📍 {project.locality?.name ? `${project.locality.name}, ` : ''}
+                    {project.city?.name}
                   </p>
                 </div>
-                <span className={`px-3 py-1 text-sm rounded-full ${
-                  project.projectStatus === 'READY_TO_MOVE' ? 'bg-green-100 text-green-800' :
-                  project.projectStatus === 'UNDER_CONSTRUCTION' ? 'bg-blue-100 text-blue-800' :
-                  'bg-purple-100 text-purple-800'
-                }`}>
+                <span
+                  className={`px-3 py-1 text-sm rounded-full ${
+                    project.projectStatus === 'READY_TO_MOVE'
+                      ? 'bg-green-100 text-green-800'
+                      : project.projectStatus === 'UNDER_CONSTRUCTION'
+                        ? 'bg-blue-100 text-blue-800'
+                        : 'bg-purple-100 text-purple-800'
+                  }`}
+                >
                   {project.projectStatus.replace(/_/g, ' ')}
                 </span>
               </div>
@@ -124,7 +122,8 @@ export default function ProjectDetailPage() {
               {project.priceMin && project.priceMax && (
                 <div className="mb-4">
                   <span className="text-2xl font-bold text-blue-600">
-                    ₹{(project.priceMin / 10000000).toFixed(2)}Cr - ₹{(project.priceMax / 10000000).toFixed(2)}Cr
+                    ₹{(project.priceMin / 10000000).toFixed(2)}Cr - ₹
+                    {(project.priceMax / 10000000).toFixed(2)}Cr
                   </span>
                 </div>
               )}
@@ -165,7 +164,10 @@ export default function ProjectDetailPage() {
                   <div>
                     <p className="text-sm text-gray-600">Possession</p>
                     <p className="font-medium">
-                      {new Date(project.possessionDate).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}
+                      {new Date(project.possessionDate).toLocaleDateString('en-US', {
+                        month: 'short',
+                        year: 'numeric',
+                      })}
                     </p>
                   </div>
                 )}
@@ -231,7 +233,9 @@ export default function ProjectDetailPage() {
               {/* Builder Info */}
               <div className="mb-6">
                 <h3 className="text-lg font-semibold text-gray-900 mb-3">Builder</h3>
-                <p className="font-medium text-gray-900">{project.builder?.builderCompany || project.builder?.name}</p>
+                <p className="font-medium text-gray-900">
+                  {project.builder?.builderCompany || project.builder?.name}
+                </p>
                 {project.builder?.establishedYear && (
                   <p className="text-sm text-gray-600">Est. {project.builder.establishedYear}</p>
                 )}
@@ -270,9 +274,7 @@ export default function ProjectDetailPage() {
             <h2 className="text-2xl font-bold mb-4">Contact Builder</h2>
             <form onSubmit={handleLeadSubmit} className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Your Name *
-                </label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Your Name *</label>
                 <input
                   type="text"
                   required
@@ -282,9 +284,7 @@ export default function ProjectDetailPage() {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Email
-                </label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
                 <input
                   type="email"
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -293,9 +293,7 @@ export default function ProjectDetailPage() {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Phone *
-                </label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Phone *</label>
                 <input
                   type="tel"
                   required
@@ -305,9 +303,7 @@ export default function ProjectDetailPage() {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Message
-                </label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Message</label>
                 <textarea
                   rows={3}
                   placeholder="I'm interested in this project..."

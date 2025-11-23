@@ -1,14 +1,4 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Patch,
-  Param,
-  Body,
-  Query,
-  UseGuards,
-  Request,
-} from '@nestjs/swagger';
+import { Controller, Get, Post, Param, Body, Query, UseGuards, Request } from '@nestjs/swagger';
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
 import { VisitsService } from './visits.service';
 import { CreateVisitDto } from './dto/create-visit.dto';
@@ -47,7 +37,7 @@ export class VisitsController {
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Get my scheduled visits' })
-  @ApiResponse({ status: 200, description: 'Returns user\'s scheduled visits' })
+  @ApiResponse({ status: 200, description: "Returns user's scheduled visits" })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   getMyVisitsAsVisitor(@Request() req, @Query() query: QueryVisitDto) {
     return this.visitsService.getMyVisitsAsVisitor(req.user.id, query);
@@ -57,7 +47,7 @@ export class VisitsController {
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Get visit requests for my properties' })
-  @ApiResponse({ status: 200, description: 'Returns visit requests for owner\'s properties' })
+  @ApiResponse({ status: 200, description: "Returns visit requests for owner's properties" })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   getMyVisitsAsOwner(@Request() req, @Query() query: QueryVisitDto) {
     return this.visitsService.getMyVisitsAsOwner(req.user.id, query);

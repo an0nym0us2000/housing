@@ -42,7 +42,9 @@ export default function BuilderProjectsPage() {
       COMPLETED: 'bg-gray-100 text-gray-800',
     };
     return (
-      <span className={`px-2 py-1 text-xs rounded-full ${styles[status] || 'bg-gray-100 text-gray-800'}`}>
+      <span
+        className={`px-2 py-1 text-xs rounded-full ${styles[status] || 'bg-gray-100 text-gray-800'}`}
+      >
         {status.replace(/_/g, ' ')}
       </span>
     );
@@ -55,14 +57,21 @@ export default function BuilderProjectsPage() {
       REJECTED: 'bg-red-100 text-red-800',
     };
     return (
-      <span className={`px-2 py-1 text-xs rounded-full ${styles[status] || 'bg-gray-100 text-gray-800'}`}>
+      <span
+        className={`px-2 py-1 text-xs rounded-full ${styles[status] || 'bg-gray-100 text-gray-800'}`}
+      >
         {status}
       </span>
     );
   };
 
   const handleDeleteProject = async (id: string) => {
-    if (!confirm('Are you sure you want to delete this project? This will delete all towers and units.')) return;
+    if (
+      !confirm(
+        'Are you sure you want to delete this project? This will delete all towers and units.'
+      )
+    )
+      return;
 
     try {
       await api.deleteProject(id);
@@ -176,7 +185,8 @@ export default function BuilderProjectsPage() {
                     <div className="mb-4 text-sm">
                       <span className="text-gray-600">Price Range: </span>
                       <span className="font-semibold text-gray-900">
-                        ₹{(project.priceMin / 10000000).toFixed(2)}Cr - ₹{(project.priceMax / 10000000).toFixed(2)}Cr
+                        ₹{(project.priceMin / 10000000).toFixed(2)}Cr - ₹
+                        {(project.priceMax / 10000000).toFixed(2)}Cr
                       </span>
                     </div>
                   )}

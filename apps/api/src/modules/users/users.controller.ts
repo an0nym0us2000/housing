@@ -15,7 +15,8 @@ export class UsersController {
   @ApiResponse({ status: 200, description: 'Returns current user' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   async getMe(@Request() req) {
-    const { password, ...user } = req.user;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { password: _password, ...user } = req.user;
     return user;
   }
 }

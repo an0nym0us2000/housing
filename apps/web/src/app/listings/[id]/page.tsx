@@ -218,10 +218,7 @@ export default function ListingDetailPage() {
                     {listing.locality?.name}, {listing.city?.name}
                   </p>
                 </div>
-                <button
-                  onClick={handleSave}
-                  className="p-2 rounded-full hover:bg-gray-100"
-                >
+                <button onClick={handleSave} className="p-2 rounded-full hover:bg-gray-100">
                   <svg
                     className={`h-6 w-6 ${isSaved ? 'fill-red-500 text-red-500' : 'text-gray-600'}`}
                     fill={isSaved ? 'currentColor' : 'none'}
@@ -255,9 +252,7 @@ export default function ListingDetailPage() {
                   )}
                 </div>
                 {listing.pricePerSqft && (
-                  <p className="text-sm text-gray-600 mt-1">
-                    ₹{listing.pricePerSqft}/sqft
-                  </p>
+                  <p className="text-sm text-gray-600 mt-1">₹{listing.pricePerSqft}/sqft</p>
                 )}
               </div>
 
@@ -347,9 +342,7 @@ export default function ListingDetailPage() {
                       type="text"
                       placeholder="Your Name"
                       value={contactForm.name}
-                      onChange={(e) =>
-                        setContactForm({ ...contactForm, name: e.target.value })
-                      }
+                      onChange={(e) => setContactForm({ ...contactForm, name: e.target.value })}
                       required
                       className="w-full rounded-md border border-gray-300 px-3 py-2"
                     />
@@ -359,9 +352,7 @@ export default function ListingDetailPage() {
                       type="email"
                       placeholder="Your Email"
                       value={contactForm.email}
-                      onChange={(e) =>
-                        setContactForm({ ...contactForm, email: e.target.value })
-                      }
+                      onChange={(e) => setContactForm({ ...contactForm, email: e.target.value })}
                       className="w-full rounded-md border border-gray-300 px-3 py-2"
                     />
                   </div>
@@ -370,9 +361,7 @@ export default function ListingDetailPage() {
                       type="tel"
                       placeholder="Your Phone"
                       value={contactForm.phone}
-                      onChange={(e) =>
-                        setContactForm({ ...contactForm, phone: e.target.value })
-                      }
+                      onChange={(e) => setContactForm({ ...contactForm, phone: e.target.value })}
                       required
                       className="w-full rounded-md border border-gray-300 px-3 py-2"
                     />
@@ -381,9 +370,7 @@ export default function ListingDetailPage() {
                     <textarea
                       placeholder="Message (optional)"
                       value={contactForm.message}
-                      onChange={(e) =>
-                        setContactForm({ ...contactForm, message: e.target.value })
-                      }
+                      onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })}
                       rows={3}
                       className="w-full rounded-md border border-gray-300 px-3 py-2"
                     />
@@ -410,9 +397,7 @@ export default function ListingDetailPage() {
                         {listing.user?.name?.charAt(0).toUpperCase()}
                       </span>
                     </div>
-                    <h3 className="text-lg font-semibold text-gray-900">
-                      {listing.user?.name}
-                    </h3>
+                    <h3 className="text-lg font-semibold text-gray-900">{listing.user?.name}</h3>
                     <p className="text-sm text-gray-500">Property Owner</p>
                   </div>
 
@@ -475,9 +460,7 @@ export default function ListingDetailPage() {
                     <input
                       type="datetime-local"
                       value={visitForm.scheduledAt}
-                      onChange={(e) =>
-                        setVisitForm({ ...visitForm, scheduledAt: e.target.value })
-                      }
+                      onChange={(e) => setVisitForm({ ...visitForm, scheduledAt: e.target.value })}
                       min={new Date().toISOString().slice(0, 16)}
                       required
                       className="w-full rounded-md border border-gray-300 px-3 py-2 focus:border-primary-500 focus:ring-primary-500"
@@ -491,9 +474,7 @@ export default function ListingDetailPage() {
                     <input
                       type="text"
                       value={visitForm.visitorName}
-                      onChange={(e) =>
-                        setVisitForm({ ...visitForm, visitorName: e.target.value })
-                      }
+                      onChange={(e) => setVisitForm({ ...visitForm, visitorName: e.target.value })}
                       required
                       className="w-full rounded-md border border-gray-300 px-3 py-2 focus:border-primary-500 focus:ring-primary-500"
                     />
@@ -506,9 +487,7 @@ export default function ListingDetailPage() {
                     <input
                       type="tel"
                       value={visitForm.visitorPhone}
-                      onChange={(e) =>
-                        setVisitForm({ ...visitForm, visitorPhone: e.target.value })
-                      }
+                      onChange={(e) => setVisitForm({ ...visitForm, visitorPhone: e.target.value })}
                       required
                       className="w-full rounded-md border border-gray-300 px-3 py-2 focus:border-primary-500 focus:ring-primary-500"
                     />
@@ -521,9 +500,7 @@ export default function ListingDetailPage() {
                     <input
                       type="email"
                       value={visitForm.visitorEmail}
-                      onChange={(e) =>
-                        setVisitForm({ ...visitForm, visitorEmail: e.target.value })
-                      }
+                      onChange={(e) => setVisitForm({ ...visitForm, visitorEmail: e.target.value })}
                       className="w-full rounded-md border border-gray-300 px-3 py-2 focus:border-primary-500 focus:ring-primary-500"
                     />
                   </div>
@@ -534,9 +511,7 @@ export default function ListingDetailPage() {
                     </label>
                     <textarea
                       value={visitForm.message}
-                      onChange={(e) =>
-                        setVisitForm({ ...visitForm, message: e.target.value })
-                      }
+                      onChange={(e) => setVisitForm({ ...visitForm, message: e.target.value })}
                       rows={3}
                       className="w-full rounded-md border border-gray-300 px-3 py-2 focus:border-primary-500 focus:ring-primary-500"
                       placeholder="Any special requests or questions..."

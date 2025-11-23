@@ -15,6 +15,7 @@ Phase 2 - Lead & Visit Management has been successfully completed! The Housing P
 #### 1. **Database Schema Updates** (`packages/database/prisma/schema.prisma`)
 
 **Visit Model:**
+
 - Complete visit lifecycle tracking with 6 statuses
 - Fields:
   - `listingId`, `visitorId`, `ownerId` (relations)
@@ -29,6 +30,7 @@ Phase 2 - Lead & Visit Management has been successfully completed! The Housing P
   - Cancellation: `cancelledAt`, `cancelledBy`, `cancellationReason`
 
 **Notification Model** (Ready for future use):
+
 - Types: LEAD_RECEIVED, VISIT_REQUESTED, VISIT_CONFIRMED, VISIT_RESCHEDULED, VISIT_CANCELLED, VISIT_REMINDER, LISTING_APPROVED, LISTING_REJECTED, MESSAGE_RECEIVED
 - Fields: userId, type, title, message, listingId, leadId, visitId
 - Read/unread status tracking
@@ -52,11 +54,13 @@ POST   /visits/:id/complete            - Mark complete with feedback
 ```
 
 **DTOs Created:**
+
 - `CreateVisitDto` - listingId, scheduledAt, visitorName, visitorPhone, visitorEmail, message
 - `UpdateVisitDto` - status, scheduledAt, rescheduledReason, ownerNotes, cancellationReason, feedback, rating
 - `QueryVisitDto` - status, listingId, page, limit, sortBy, sortOrder
 
 **Service Features:**
+
 - **Validation:**
   - Future dates only (scheduled > now)
   - Valid status transitions
@@ -72,6 +76,7 @@ POST   /visits/:id/complete            - Mark complete with feedback
 - **Statistics:** Aggregated counts for dashboard
 
 **TODO Markers Added:**
+
 - Notification creation on visit actions
 - Ready for Phase 2.2 (Notification System)
 
@@ -80,21 +85,23 @@ POST   /visits/:id/complete            - Mark complete with feedback
 #### 1. **API Client Updates** (`src/lib/api.ts`)
 
 Added 9 new methods:
+
 ```typescript
-createVisit(data)              // Schedule visit
-getMyVisitsAsVisitor(params)   // Buyer's visits
-getMyVisitsAsOwner(params)     // Owner's visit requests
-getVisit(id)                   // Get visit details
-confirmVisit(id, data)         // Confirm (owner)
-rescheduleVisit(id, data)      // Reschedule (both)
-cancelVisit(id, reason)        // Cancel (both)
-completeVisit(id, feedback, rating) // Complete (visitor)
-getVisitStats()                // Statistics
+createVisit(data); // Schedule visit
+getMyVisitsAsVisitor(params); // Buyer's visits
+getMyVisitsAsOwner(params); // Owner's visit requests
+getVisit(id); // Get visit details
+confirmVisit(id, data); // Confirm (owner)
+rescheduleVisit(id, data); // Reschedule (both)
+cancelVisit(id, reason); // Cancel (both)
+completeVisit(id, feedback, rating); // Complete (visitor)
+getVisitStats(); // Statistics
 ```
 
 #### 2. **Property Detail Page Enhancement** (`src/app/listings/[id]/page.tsx`)
 
 **New Features:**
+
 - **"Schedule Visit" Button:**
   - Positioned next to "Contact Owner" button
   - Styled with border (secondary action)
@@ -117,6 +124,7 @@ getVisitStats()                // Statistics
   - Full-screen overlay with z-index management
 
 **State Management:**
+
 ```typescript
 showVisitModal (boolean)
 visitForm {
@@ -128,6 +136,7 @@ visitForm {
 #### 3. **Dashboard Enhancements** (`src/app/dashboard/page.tsx`)
 
 **New State Variables:**
+
 ```typescript
 myVisits[]           // Visits as a visitor
 visitRequests[]      // Visits as an owner
@@ -137,6 +146,7 @@ activeTab            // Extended to include: listings | leads | myVisits | visit
 **New Tab: "My Visits" (Buyer View)**
 
 Shows all visits the user has scheduled:
+
 - Property title (linked to listing)
 - Location (locality, city)
 - Scheduled date/time (formatted)
@@ -156,6 +166,7 @@ Shows all visits the user has scheduled:
 **New Tab: "Visit Requests" (Owner View)**
 
 Shows all incoming visit requests for owner's properties:
+
 - Property title (linked to listing)
 - Location (locality, city)
 - Visitor details:
@@ -171,14 +182,16 @@ Shows all incoming visit requests for owner's properties:
 - Empty state: "No visit requests"
 
 **New Helper Functions:**
+
 ```typescript
-getVisitStatusBadge(status)    // Returns styled badge component
-formatDateTime(date)            // Format: "19 Nov 2025, 10:30 AM"
-handleConfirmVisit(id)          // API call + reload
-handleCancelVisit(id)           // Prompt for reason + API call
+getVisitStatusBadge(status); // Returns styled badge component
+formatDateTime(date); // Format: "19 Nov 2025, 10:30 AM"
+handleConfirmVisit(id); // API call + reload
+handleCancelVisit(id); // Prompt for reason + API call
 ```
 
 **Data Loading:**
+
 - Parallel Promise.all fetch:
   - Listings, Leads, Stats
   - **New:** VisitsAsVisitor, VisitsAsOwner
@@ -190,6 +203,7 @@ handleCancelVisit(id)           // Prompt for reason + API call
 All work committed to branch: `claude/update-docs-01FLSNdKfPqoHy7NA97nnYZ3`
 
 **Commits made:**
+
 1. `feat(api): add visit scheduling system - Phase 2 backend`
 2. `feat(web): add visit scheduling API client methods`
 3. `feat(web): add complete visit scheduling UI - Phase 2 frontend`
@@ -197,6 +211,7 @@ All work committed to branch: `claude/update-docs-01FLSNdKfPqoHy7NA97nnYZ3`
 ## How to Test
 
 ### 1. **Database Migration**
+
 ```bash
 cd packages/database
 npx prisma generate
@@ -207,6 +222,7 @@ npm run db:migrate
 ```
 
 ### 2. **Start Applications**
+
 ```bash
 make dev    # Start all apps
 
@@ -219,6 +235,7 @@ make dev    # Start all apps
 ### 3. **Test Visit Scheduling Flow**
 
 #### As Buyer:
+
 1. Register/Login as BUYER
 2. Browse to `/search`
 3. Click on any property
@@ -234,6 +251,7 @@ make dev    # Start all apps
 13. Try cancelling the visit
 
 #### As Owner:
+
 1. Register/Login as OWNER
 2. Create a property listing
 3. Submit for review
@@ -250,6 +268,7 @@ make dev    # Start all apps
 Visit: http://localhost:3001/api-docs
 
 Try these endpoints:
+
 - POST /visits (with valid listingId and future date)
 - GET /visits/my-visits-as-visitor
 - GET /visits/my-visits-as-owner
@@ -261,12 +280,14 @@ Try these endpoints:
 ### Architecture Decisions
 
 **Backend:**
+
 - **Status Machine:** Clear status flow with validation
 - **Bidirectional Permissions:** Both owner and visitor can reschedule/cancel
 - **Data Integrity:** Foreign key constraints with cascade deletes
 - **Extensibility:** TODO markers for notifications integration
 
 **Frontend:**
+
 - **Modal Pattern:** Reusable full-screen overlay
 - **Optimistic UI:** Loading states + immediate feedback
 - **Role-Based Tabs:** Show relevant data based on user role
@@ -360,6 +381,7 @@ Try these endpoints:
 ## Success Metrics
 
 Phase 2 is **feature-complete** with:
+
 - ✅ 10 new API endpoints
 - ✅ 2 new database models (Visit, Notification)
 - ✅ 9 new API client methods
@@ -371,18 +393,19 @@ Phase 2 is **feature-complete** with:
 
 ## Phase 2 vs Phase 1 Comparison
 
-| Metric | Phase 1 | Phase 2 | Total |
-|--------|---------|---------|-------|
-| Backend Modules | 8 | +1 (Visits) | 9 |
-| API Endpoints | 40+ | +10 | 50+ |
-| Database Models | 9 | +2 (Visit, Notification) | 11 |
-| Frontend Pages | 7 | +0 (enhanced existing) | 7 |
-| Dashboard Tabs | 2 | +2 | 4 |
-| User Flows | 3 roles | Enhanced all 3 | 3 |
+| Metric          | Phase 1 | Phase 2                  | Total |
+| --------------- | ------- | ------------------------ | ----- |
+| Backend Modules | 8       | +1 (Visits)              | 9     |
+| API Endpoints   | 40+     | +10                      | 50+   |
+| Database Models | 9       | +2 (Visit, Notification) | 11    |
+| Frontend Pages  | 7       | +0 (enhanced existing)   | 7     |
+| Dashboard Tabs  | 2       | +2                       | 4     |
+| User Flows      | 3 roles | Enhanced all 3           | 3     |
 
 ## Conclusion
 
 Phase 2 is **production-ready** for core visit scheduling features:
+
 - ✅ Complete backend infrastructure
 - ✅ Full frontend UI for scheduling and management
 - ✅ Role-based permissions and workflows
@@ -390,6 +413,7 @@ Phase 2 is **production-ready** for core visit scheduling features:
 - ✅ Comprehensive error handling
 
 **Ready for:**
+
 1. User acceptance testing
 2. Phase 2.2 - Notification System (optional)
 3. Phase 3 - Broker CRM (next major phase)

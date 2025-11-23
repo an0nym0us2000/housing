@@ -9,8 +9,8 @@ export default function HomePage() {
               Find Your Dream Home
             </h1>
             <p className="mx-auto mb-10 max-w-2xl text-xl text-gray-600">
-              Search thousands of properties for sale and rent across India. Your perfect home
-              is just a search away.
+              Search thousands of properties for sale and rent across India. Your perfect home is
+              just a search away.
             </p>
 
             {/* Search Box */}
@@ -51,9 +51,7 @@ export default function HomePage() {
       {/* Features Section */}
       <section className="py-20">
         <div className="container-custom">
-          <h2 className="mb-12 text-center text-3xl font-bold text-gray-900">
-            Why Choose Us?
-          </h2>
+          <h2 className="mb-12 text-center text-3xl font-bold text-gray-900">Why Choose Us?</h2>
           <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
             <div className="text-center">
               <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary-100">
@@ -114,9 +112,7 @@ export default function HomePage() {
                 </svg>
               </div>
               <h3 className="mb-2 text-xl font-semibold">Quick & Easy</h3>
-              <p className="text-gray-600">
-                Find and connect with property owners in minutes
-              </p>
+              <p className="text-gray-600">Find and connect with property owners in minutes</p>
             </div>
           </div>
         </div>
@@ -125,9 +121,7 @@ export default function HomePage() {
       {/* CTA Section */}
       <section className="bg-primary-600 py-16">
         <div className="container-custom text-center">
-          <h2 className="mb-4 text-3xl font-bold text-white">
-            Ready to List Your Property?
-          </h2>
+          <h2 className="mb-4 text-3xl font-bold text-white">Ready to List Your Property?</h2>
           <p className="mb-8 text-lg text-primary-100">
             Reach thousands of verified buyers and tenants
           </p>

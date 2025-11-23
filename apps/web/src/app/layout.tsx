@@ -25,29 +25,51 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
                   <div>
                     <h3 className="mb-4 text-lg font-semibold">Housing Platform</h3>
-                    <p className="text-sm text-gray-600">
-                      Your trusted real estate marketplace
-                    </p>
+                    <p className="text-sm text-gray-600">Your trusted real estate marketplace</p>
                   </div>
                   <div>
                     <h4 className="mb-4 font-semibold">For Buyers</h4>
                     <ul className="space-y-2 text-sm text-gray-600">
-                      <li><a href="/search?listingType=SALE" className="hover:text-primary-600">Buy Property</a></li>
-                      <li><a href="/search?listingType=RENT" className="hover:text-primary-600">Rent Property</a></li>
+                      <li>
+                        <a href="/search?listingType=SALE" className="hover:text-primary-600">
+                          Buy Property
+                        </a>
+                      </li>
+                      <li>
+                        <a href="/search?listingType=RENT" className="hover:text-primary-600">
+                          Rent Property
+                        </a>
+                      </li>
                     </ul>
                   </div>
                   <div>
                     <h4 className="mb-4 font-semibold">For Owners</h4>
                     <ul className="space-y-2 text-sm text-gray-600">
-                      <li><a href="/list-property" className="hover:text-primary-600">List Property</a></li>
-                      <li><a href="/dashboard" className="hover:text-primary-600">Dashboard</a></li>
+                      <li>
+                        <a href="/list-property" className="hover:text-primary-600">
+                          List Property
+                        </a>
+                      </li>
+                      <li>
+                        <a href="/dashboard" className="hover:text-primary-600">
+                          Dashboard
+                        </a>
+                      </li>
                     </ul>
                   </div>
                   <div>
                     <h4 className="mb-4 font-semibold">Company</h4>
                     <ul className="space-y-2 text-sm text-gray-600">
-                      <li><a href="/about" className="hover:text-primary-600">About Us</a></li>
-                      <li><a href="/contact" className="hover:text-primary-600">Contact</a></li>
+                      <li>
+                        <a href="/about" className="hover:text-primary-600">
+                          About Us
+                        </a>
+                      </li>
+                      <li>
+                        <a href="/contact" className="hover:text-primary-600">
+                          Contact
+                        </a>
+                      </li>
                     </ul>
                   </div>
                 </div>

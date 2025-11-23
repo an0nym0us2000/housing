@@ -14,6 +14,7 @@ import { VisitsModule } from './modules/visits/visits.module';
 import { TeamsModule } from './modules/teams/teams.module';
 import { TasksModule } from './modules/tasks/tasks.module';
 import { ProjectsModule } from './modules/projects/projects.module';
+import { NotificationsModule } from './modules/notifications/notifications.module';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { ProjectsModule } from './modules/projects/projects.module';
     TeamsModule,
     TasksModule,
     ProjectsModule,
+    NotificationsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

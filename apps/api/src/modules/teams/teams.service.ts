@@ -192,9 +192,7 @@ export class TeamsService {
     });
 
     if (!membership) {
-      throw new ForbiddenException(
-        'Only team owners and admins can update team details',
-      );
+      throw new ForbiddenException('Only team owners and admins can update team details');
     }
 
     const team = await this.prisma.team.update({
@@ -261,9 +259,7 @@ export class TeamsService {
     });
 
     if (!membership) {
-      throw new ForbiddenException(
-        'Only team owners and admins can add members',
-      );
+      throw new ForbiddenException('Only team owners and admins can add members');
     }
 
     // Check if user to add exists
@@ -324,9 +320,7 @@ export class TeamsService {
     });
 
     if (!membership) {
-      throw new ForbiddenException(
-        'Only team owners and admins can remove members',
-      );
+      throw new ForbiddenException('Only team owners and admins can remove members');
     }
 
     // Check if trying to remove owner
@@ -359,12 +353,7 @@ export class TeamsService {
     return { message: 'Member removed successfully' };
   }
 
-  async updateMemberRole(
-    teamId: string,
-    memberId: string,
-    userId: string,
-    role: string,
-  ) {
+  async updateMemberRole(teamId: string, memberId: string, userId: string, role: string) {
     // Only team owner can update roles
     const team = await this.prisma.team.findUnique({
       where: { id: teamId },
@@ -433,12 +422,7 @@ export class TeamsService {
       throw new ForbiddenException('Access denied');
     }
 
-    const [
-      totalListings,
-      activeListings,
-      totalLeads,
-      pendingTasks,
-    ] = await Promise.all([
+    const [totalListings, activeListings, totalLeads, pendingTasks] = await Promise.all([
       this.prisma.listing.count({
         where: { teamId },
       }),

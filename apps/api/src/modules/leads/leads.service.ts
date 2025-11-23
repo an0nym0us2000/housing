@@ -1,12 +1,16 @@
 import { Injectable, NotFoundException, ForbiddenException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
+import { NotificationsService } from '../notifications/notifications.service';
 import { LeadStatus } from '@housing/database';
 import { CreateLeadDto } from './dto/create-lead.dto';
 import { UpdateLeadStatusDto } from './dto/update-lead-status.dto';
 
 @Injectable()
 export class LeadsService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private notificationsService: NotificationsService
+  ) {}
 
   async create(createLeadDto: CreateLeadDto, userId?: string) {
     const { listingId, ...leadData } = createLeadDto;
@@ -14,7 +18,19 @@ export class LeadsService {
     // Get listing to find the owner
     const listing = await this.prisma.listing.findUnique({
       where: { id: listingId },
-      select: { userId: true },
+      select: {
+        id: true,
+        title: true,
+        price: true,
+        userId: true,
+        user: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+          },
+        },
+      },
     });
 
     if (!listing) {
@@ -27,7 +43,7 @@ export class LeadsService {
       data: { contactCount: { increment: 1 } },
     });
 
-    return this.prisma.lead.create({
+    const lead = await this.prisma.lead.create({
       data: {
         ...leadData,
         listingId,
@@ -44,6 +60,13 @@ export class LeadsService {
         },
       },
     });
+
+    // Send new lead notification (async, don't wait)
+    this.notificationsService
+      .sendNewLeadNotification(lead, listing, listing.user)
+      .catch((error) => console.error('Failed to send new lead notification:', error));
+
+    return lead;
   }
 
   async getOwnerLeads(ownerId: string) {
