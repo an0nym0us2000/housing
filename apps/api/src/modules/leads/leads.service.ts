@@ -179,4 +179,171 @@ export class LeadsService {
       qualified,
     };
   }
+
+  // Get lead details with activities
+  async getLeadDetails(leadId: string, userId: string) {
+    const lead = await this.prisma.lead.findUnique({
+      where: { id: leadId },
+      include: {
+        listing: {
+          select: {
+            id: true,
+            title: true,
+            price: true,
+            city: true,
+            locality: true,
+          },
+        },
+        project: {
+          select: {
+            id: true,
+            name: true,
+            city: true,
+            locality: true,
+          },
+        },
+        user: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+            phone: true,
+          },
+        },
+        owner: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+          },
+        },
+        assignments: {
+          include: {
+            assignedTo: {
+              select: {
+                id: true,
+                name: true,
+                email: true,
+              },
+            },
+          },
+          orderBy: {
+            assignedAt: 'desc',
+          },
+        },
+        activities: {
+          include: {
+            user: {
+              select: {
+                id: true,
+                name: true,
+                email: true,
+              },
+            },
+          },
+          orderBy: {
+            createdAt: 'desc',
+          },
+        },
+      },
+    });
+
+    if (!lead) {
+      throw new NotFoundException('Lead not found');
+    }
+
+    if (lead.ownerId !== userId) {
+      throw new ForbiddenException('You can only view your own leads');
+    }
+
+    return lead;
+  }
+
+  // Add activity to a lead
+  async addActivity(leadId: string, userId: string, data: any) {
+    const lead = await this.prisma.lead.findUnique({
+      where: { id: leadId },
+    });
+
+    if (!lead) {
+      throw new NotFoundException('Lead not found');
+    }
+
+    if (lead.ownerId !== userId) {
+      throw new ForbiddenException('You can only add activities to your own leads');
+    }
+
+    return this.prisma.leadActivity.create({
+      data: {
+        ...data,
+        leadId,
+        userId,
+        scheduledAt: data.scheduledAt ? new Date(data.scheduledAt) : null,
+      },
+      include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+          },
+        },
+      },
+    });
+  }
+
+  // Get activities for a lead
+  async getActivities(leadId: string, userId: string) {
+    const lead = await this.prisma.lead.findUnique({
+      where: { id: leadId },
+    });
+
+    if (!lead) {
+      throw new NotFoundException('Lead not found');
+    }
+
+    if (lead.ownerId !== userId) {
+      throw new ForbiddenException('You can only view activities for your own leads');
+    }
+
+    return this.prisma.leadActivity.findMany({
+      where: { leadId },
+      include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+          },
+        },
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
+  }
+
+  // Delete activity
+  async deleteActivity(activityId: string, userId: string) {
+    const activity = await this.prisma.leadActivity.findUnique({
+      where: { id: activityId },
+      include: {
+        lead: true,
+      },
+    });
+
+    if (!activity) {
+      throw new NotFoundException('Activity not found');
+    }
+
+    if (activity.lead.ownerId !== userId) {
+      throw new ForbiddenException('You can only delete activities from your own leads');
+    }
+
+    await this.prisma.leadActivity.delete({
+      where: { id: activityId },
+    });
+
+    return { message: 'Activity deleted successfully' };
+  }
 }
