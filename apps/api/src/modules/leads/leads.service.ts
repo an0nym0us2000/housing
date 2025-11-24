@@ -462,4 +462,85 @@ export class LeadsService {
       },
     });
   }
+
+  // Update lead pipeline stage
+  async updatePipelineStage(leadId: string, userId: string, pipelineStage: string) {
+    const lead = await this.prisma.lead.findUnique({
+      where: { id: leadId },
+    });
+
+    if (!lead) {
+      throw new NotFoundException('Lead not found');
+    }
+
+    if (lead.ownerId !== userId) {
+      throw new ForbiddenException('You can only update your own leads');
+    }
+
+    const updatedLead = await this.prisma.lead.update({
+      where: { id: leadId },
+      data: { pipelineStage },
+    });
+
+    await this.prisma.leadActivity.create({
+      data: {
+        leadId,
+        userId,
+        type: 'STATUS_CHANGE',
+        title: `Pipeline stage changed to ${pipelineStage}`,
+        description: `Lead moved from ${lead.pipelineStage} to ${pipelineStage}`,
+      },
+    });
+
+    return updatedLead;
+  }
+
+  // Get leads grouped by pipeline stage
+  async getLeadsPipeline(userId: string) {
+    const leads = await this.prisma.lead.findMany({
+      where: { ownerId: userId },
+      include: {
+        listing: {
+          select: {
+            id: true,
+            title: true,
+            price: true,
+          },
+        },
+        project: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+        user: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+          },
+        },
+      },
+      orderBy: [{ pipelineStage: 'asc' }, { createdAt: 'desc' }],
+    });
+
+    const grouped: any = {
+      NEW: [],
+      CONTACTED: [],
+      QUALIFIED: [],
+      SITE_VISIT_SCHEDULED: [],
+      SITE_VISIT_COMPLETED: [],
+      NEGOTIATION: [],
+      DEAL_CLOSED: [],
+      LOST: [],
+    };
+
+    leads.forEach((lead) => {
+      if (grouped[lead.pipelineStage]) {
+        grouped[lead.pipelineStage].push(lead);
+      }
+    });
+
+    return grouped;
+  }
 }

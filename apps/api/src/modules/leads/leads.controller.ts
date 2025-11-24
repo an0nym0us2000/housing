@@ -5,6 +5,7 @@ import { CreateLeadDto } from './dto/create-lead.dto';
 import { UpdateLeadStatusDto } from './dto/update-lead-status.dto';
 import { CreateActivityDto } from './dto/create-activity.dto';
 import { AssignLeadDto } from './dto/assign-lead.dto';
+import { UpdatePipelineStageDto } from './dto/update-pipeline-stage.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
 @ApiTags('leads')
@@ -139,5 +140,26 @@ export class LeadsController {
   @ApiResponse({ status: 200, description: 'Returns assigned leads' })
   getAssignedLeads(@Request() req) {
     return this.leadsService.getAssignedLeads(req.user.id);
+  }
+
+  @Get('pipeline')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Get leads grouped by pipeline stage (Kanban view)' })
+  @ApiResponse({ status: 200, description: 'Returns leads grouped by stage' })
+  getPipeline(@Request() req) {
+    return this.leadsService.getLeadsPipeline(req.user.id);
+  }
+
+  @Patch(':id/pipeline')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Update lead pipeline stage' })
+  @ApiResponse({ status: 200, description: 'Pipeline stage updated' })
+  @ApiResponse({ status: 403, description: 'Forbidden' })
+  @ApiResponse({ status: 404, description: 'Lead not found' })
+  @ApiParam({ name: 'id', description: 'Lead ID' })
+  updatePipelineStage(@Param('id') id: string, @Request() req, @Body() updateDto: UpdatePipelineStageDto) {
+    return this.leadsService.updatePipelineStage(id, req.user.id, updateDto.pipelineStage);
   }
 }
