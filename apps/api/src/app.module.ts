@@ -15,6 +15,7 @@ import { TeamsModule } from './modules/teams/teams.module';
 import { TasksModule } from './modules/tasks/tasks.module';
 import { ProjectsModule } from './modules/projects/projects.module';
 import { NotificationsModule } from './modules/notifications/notifications.module';
+import { RemindersModule } from './modules/reminders/reminders.module';
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { NotificationsModule } from './modules/notifications/notifications.modul
     TasksModule,
     ProjectsModule,
     NotificationsModule,
+    RemindersModule,
   ],
   controllers: [AppController],
   providers: [AppService],
