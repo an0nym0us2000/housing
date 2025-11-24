@@ -1,8 +1,9 @@
-import { Controller, Get, Post, Body, Patch, Param, UseGuards, Request } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, UseGuards, Request, Delete } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth, ApiParam } from '@nestjs/swagger';
 import { LeadsService } from './leads.service';
 import { CreateLeadDto } from './dto/create-lead.dto';
 import { UpdateLeadStatusDto } from './dto/update-lead-status.dto';
+import { CreateActivityDto } from './dto/create-activity.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
 @ApiTags('leads')
@@ -68,5 +69,53 @@ export class LeadsController {
   @ApiResponse({ status: 404, description: 'Lead not found' })
   markAsRead(@Param('id') id: string, @Request() req) {
     return this.leadsService.markAsRead(id, req.user.id);
+  }
+
+  @Get(':id')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Get lead details with activities' })
+  @ApiResponse({ status: 200, description: 'Returns lead details' })
+  @ApiResponse({ status: 403, description: 'Forbidden' })
+  @ApiResponse({ status: 404, description: 'Lead not found' })
+  @ApiParam({ name: 'id', description: 'Lead ID' })
+  getLeadDetails(@Param('id') id: string, @Request() req) {
+    return this.leadsService.getLeadDetails(id, req.user.id);
+  }
+
+  @Post(':id/activities')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Add activity to a lead' })
+  @ApiResponse({ status: 201, description: 'Activity created successfully' })
+  @ApiResponse({ status: 403, description: 'Forbidden' })
+  @ApiResponse({ status: 404, description: 'Lead not found' })
+  @ApiParam({ name: 'id', description: 'Lead ID' })
+  addActivity(@Param('id') id: string, @Request() req, @Body() createActivityDto: CreateActivityDto) {
+    return this.leadsService.addActivity(id, req.user.id, createActivityDto);
+  }
+
+  @Get(':id/activities')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Get activities for a lead' })
+  @ApiResponse({ status: 200, description: 'Returns lead activities' })
+  @ApiResponse({ status: 403, description: 'Forbidden' })
+  @ApiResponse({ status: 404, description: 'Lead not found' })
+  @ApiParam({ name: 'id', description: 'Lead ID' })
+  getActivities(@Param('id') id: string, @Request() req) {
+    return this.leadsService.getActivities(id, req.user.id);
+  }
+
+  @Delete('activities/:activityId')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Delete an activity' })
+  @ApiResponse({ status: 200, description: 'Activity deleted successfully' })
+  @ApiResponse({ status: 403, description: 'Forbidden' })
+  @ApiResponse({ status: 404, description: 'Activity not found' })
+  @ApiParam({ name: 'activityId', description: 'Activity ID' })
+  deleteActivity(@Param('activityId') activityId: string, @Request() req) {
+    return this.leadsService.deleteActivity(activityId, req.user.id);
   }
 }
