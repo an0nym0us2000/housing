@@ -346,4 +346,120 @@ export class LeadsService {
 
     return { message: 'Activity deleted successfully' };
   }
+
+  // Assign lead to a user
+  async assignLead(leadId: string, assignerId: string, assigneeId: string) {
+    const lead = await this.prisma.lead.findUnique({
+      where: { id: leadId },
+      include: {
+        owner: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+          },
+        },
+      },
+    });
+
+    if (!lead) {
+      throw new NotFoundException('Lead not found');
+    }
+
+    if (lead.ownerId !== assignerId) {
+      throw new ForbiddenException('You can only assign your own leads');
+    }
+
+    const assignee = await this.prisma.user.findUnique({
+      where: { id: assigneeId },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+      },
+    });
+
+    if (!assignee) {
+      throw new NotFoundException('Assignee user not found');
+    }
+
+    const assignment = await this.prisma.leadAssignment.create({
+      data: {
+        leadId,
+        assignedToId: assigneeId,
+        assignedById: assignerId,
+      },
+      include: {
+        assignedTo: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+          },
+        },
+        assignedBy: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+          },
+        },
+      },
+    });
+
+    await this.prisma.leadActivity.create({
+      data: {
+        leadId,
+        userId: assignerId,
+        type: 'ASSIGNMENT',
+        title: `Assigned to ${assignee.name}`,
+        description: `Lead assigned to ${assignee.name} by ${lead.owner.name}`,
+      },
+    });
+
+    this.notificationsService
+      .sendLeadAssigned(lead, assignee, lead.owner)
+      .catch((error) =>
+        console.error('Failed to send lead assigned notification:', error),
+      );
+
+    return assignment;
+  }
+
+  async getAssignedLeads(userId: string) {
+    return this.prisma.lead.findMany({
+      where: {
+        assignments: {
+          some: {
+            assignedToId: userId,
+          },
+        },
+      },
+      include: {
+        listing: {
+          select: {
+            id: true,
+            title: true,
+            price: true,
+          },
+        },
+        project: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+        owner: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+          },
+        },
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
+  }
 }

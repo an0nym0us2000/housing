@@ -4,6 +4,7 @@ import { LeadsService } from './leads.service';
 import { CreateLeadDto } from './dto/create-lead.dto';
 import { UpdateLeadStatusDto } from './dto/update-lead-status.dto';
 import { CreateActivityDto } from './dto/create-activity.dto';
+import { AssignLeadDto } from './dto/assign-lead.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
 @ApiTags('leads')
@@ -117,5 +118,26 @@ export class LeadsController {
   @ApiParam({ name: 'activityId', description: 'Activity ID' })
   deleteActivity(@Param('activityId') activityId: string, @Request() req) {
     return this.leadsService.deleteActivity(activityId, req.user.id);
+  }
+
+  @Post(':id/assign')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Assign lead to a user' })
+  @ApiResponse({ status: 201, description: 'Lead assigned successfully' })
+  @ApiResponse({ status: 403, description: 'Forbidden' })
+  @ApiResponse({ status: 404, description: 'Lead or user not found' })
+  @ApiParam({ name: 'id', description: 'Lead ID' })
+  assignLead(@Param('id') id: string, @Request() req, @Body() assignLeadDto: AssignLeadDto) {
+    return this.leadsService.assignLead(id, req.user.id, assignLeadDto.assignedToId);
+  }
+
+  @Get('assigned-to-me')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Get leads assigned to current user' })
+  @ApiResponse({ status: 200, description: 'Returns assigned leads' })
+  getAssignedLeads(@Request() req) {
+    return this.leadsService.getAssignedLeads(req.user.id);
   }
 }
