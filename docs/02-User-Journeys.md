@@ -7,6 +7,7 @@ This document details the screen-by-screen flows for each user panel in the plat
 ## 2.1 BUYER/TENANT WEB APPLICATION
 
 ### 2.1.1 Onboarding & City Selection
+
 - **Entry Point:** User lands on homepage
 - **Flow:**
   1. Clean hero section with search box prominently displayed
@@ -18,6 +19,7 @@ This document details the screen-by-screen flows for each user panel in the plat
 - **No account required** at this stage
 
 ### 2.1.2 Homepage Design
+
 - **Hero Section:**
   - Large search bar with placeholder: "Search by locality, landmark, project"
   - Property type selector (Buy/Rent/PG/Commercial)
@@ -38,6 +40,7 @@ This document details the screen-by-screen flows for each user panel in the plat
   - Trust indicators (verified listings count, etc.)
 
 ### 2.1.3 Search & Filters System
+
 - **Search Input:**
   - Autocomplete with suggestions (localities, landmarks, projects, builders)
   - Recent searches history (for logged-in users)
@@ -60,6 +63,7 @@ This document details the screen-by-screen flows for each user panel in the plat
 - **Clear All Filters** button
 
 ### 2.1.4 Search Results Page
+
 - **View Toggle:** List view | Map view | Gallery view
 - **Sort Options:** Relevance, Price (Low to High), Price (High to Low), Newest First, Popular
 - **Results Count:** "Showing 248 properties in Indiranagar, Bangalore"
@@ -82,6 +86,7 @@ This document details the screen-by-screen flows for each user panel in the plat
 - **No Results State:** Suggestions to broaden search, remove filters, or get alerts
 
 ### 2.1.5 Property Detail Page (PDP)
+
 - **URL Structure:** `/property/[property-id]/[seo-friendly-title]`
 - **Hero Gallery:**
   - Large image viewer with thumbnail strip
@@ -119,6 +124,7 @@ This document details the screen-by-screen flows for each user panel in the plat
 - **Report Listing Button:** For flagging fraud or incorrect info
 
 ### 2.1.6 Contact & Lead Actions
+
 - **Call Action:**
   - For non-logged-in: prompt login
   - For logged-in: reveal phone number (masked if privacy enabled)
@@ -140,6 +146,7 @@ This document details the screen-by-screen flows for each user panel in the plat
   - Add to user's visit schedule
 
 ### 2.1.7 Buyer Dashboard
+
 - **Navigation Tabs:**
   - **Saved Properties:** Grid of all saved listings with remove option
   - **Saved Searches:** List of saved filter combinations with alert toggle
@@ -167,6 +174,7 @@ This document details the screen-by-screen flows for each user panel in the plat
 ## 2.2 OWNER/LANDLORD PANEL
 
 ### 2.2.1 Owner Onboarding Flow
+
 - **Step 1: Registration**
   - Email/phone signup
   - OTP verification
@@ -182,6 +190,7 @@ This document details the screen-by-screen flows for each user panel in the plat
   - Verified badge on listings after approval
 
 ### 2.2.2 Add Property Wizard (Multi-Step Form)
+
 - **Step 1: Property Type**
   - Category: Residential | Commercial
   - Type: Apartment | Villa | Plot | House | Builder Floor | Office | Shop | Warehouse | Industrial
@@ -234,6 +243,7 @@ This document details the screen-by-screen flows for each user panel in the plat
   - Success message with next steps
 
 ### 2.2.3 Listing Management Dashboard
+
 - **Overview Cards:**
   - Total active listings
   - Total leads received (this month)
@@ -248,6 +258,7 @@ This document details the screen-by-screen flows for each user panel in the plat
 - **Bulk Actions:** Select multiple listings to pause/activate
 
 ### 2.2.4 Lead Management Panel
+
 - **Leads List View:**
   - Columns: Buyer Name | Property | Contact Method | Date | Status | Actions
   - Status: New | Contacted | Visit Scheduled | Interested | Not Interested | Closed
@@ -269,6 +280,7 @@ This document details the screen-by-screen flows for each user panel in the plat
   - Automatic reminders sent to buyer and owner
 
 ### 2.2.5 Analytics & Performance Dashboard
+
 - **Time Range Selector:** Last 7 days | Last 30 days | Custom range
 - **Key Metrics Cards:**
   - Total impressions (listing views)
@@ -285,6 +297,7 @@ This document details the screen-by-screen flows for each user panel in the plat
 - **Suggestions:** "Boost your listing visibility with a paid plan" CTA
 
 ### 2.2.6 Paid Plans & Promotions
+
 - **Available Plans Display:**
   - Free plan features
   - Premium plan tiers (e.g., Silver, Gold, Platinum)
@@ -309,6 +322,7 @@ This document details the screen-by-screen flows for each user panel in the plat
 ## 2.3 BROKER/AGENT PANEL
 
 ### 2.3.1 Broker Onboarding
+
 - **Registration:**
   - Company name and RERA registration number
   - Company address and phone
@@ -324,6 +338,7 @@ This document details the screen-by-screen flows for each user panel in the plat
 - **Verification:** KYC and RERA verification by ops team
 
 ### 2.3.2 Property Inventory Management
+
 - **Add Property:**
   - Same wizard as owner, with additional field: "Property belongs to" (owner's name/contact for broker's internal reference)
   - Bulk upload option: CSV/Excel template download and upload with field mapping
@@ -335,6 +350,7 @@ This document details the screen-by-screen flows for each user panel in the plat
 - **Assign Property to Agent:** Dropdown to assign leads/property to specific team member
 
 ### 2.3.3 Team Management
+
 - **Agents List:**
   - Table: Agent Name | Email | Phone | Role | Active Listings | Active Leads | Performance Score | Status | Actions
   - Add new agent button
@@ -351,6 +367,7 @@ This document details the screen-by-screen flows for each user panel in the plat
   - Leaderboard view
 
 ### 2.3.4 CRM Pipeline for Leads
+
 - **Kanban Board View:**
   - Columns: **New** | **Contacted** | **Visit Scheduled** | **Negotiation** | **Closed Won** | **Closed Lost**
   - Lead cards draggable between columns
@@ -377,6 +394,7 @@ This document details the screen-by-screen flows for each user panel in the plat
   - Agent assigned
 
 ### 2.3.5 Tasks & Reminders
+
 - **Task List:**
   - All pending tasks and follow-ups
   - Linked to specific lead
@@ -393,6 +411,7 @@ This document details the screen-by-screen flows for each user panel in the plat
   - Click date to add task or view scheduled items
 
 ### 2.3.6 Broker Analytics Dashboard
+
 - **Overview Metrics:**
   - Total active listings
   - Total leads (this month)
@@ -413,6 +432,7 @@ This document details the screen-by-screen flows for each user panel in the plat
 ## 2.4 BUILDER/DEVELOPER PANEL
 
 ### 2.4.1 Builder Onboarding
+
 - **Registration:**
   - Company name
   - RERA registration number (mandatory)
@@ -429,6 +449,7 @@ This document details the screen-by-screen flows for each user panel in the plat
   - Awards and recognitions
 
 ### 2.4.2 Create Project
+
 - **Step 1: Project Basics**
   - Project name
   - RERA project registration number
@@ -461,6 +482,7 @@ This document details the screen-by-screen flows for each user panel in the plat
   - Once approved, project goes live with public project detail page
 
 ### 2.4.3 Tower/Wing & Unit Inventory Management
+
 - **Project Dashboard:**
   - Overview: Total units, available, blocked, booked, sold
   - Project-level analytics: views, leads, visits
@@ -499,6 +521,7 @@ This document details the screen-by-screen flows for each user panel in the plat
   - Export to Excel
 
 ### 2.4.4 Campaign Management
+
 - **Create Campaign:**
   - Campaign name (internal reference)
   - Campaign type: Launch Offer | Festive Discount | Early Bird | Referral
@@ -516,6 +539,7 @@ This document details the screen-by-screen flows for each user panel in the plat
   - Shareable link for digital marketing
 
 ### 2.4.5 Lead Management for Projects
+
 - **Project Leads Dashboard:**
   - Filter leads by project, campaign, date range, status
   - Columns: Lead Name | Contact | Project/Unit Interest | Source | Campaign | Date | Status | Assigned To | Actions
@@ -533,6 +557,7 @@ This document details the screen-by-screen flows for each user panel in the plat
   - Auto-assignment rules (round-robin, by locality, by load balancing)
 
 ### 2.4.6 Builder Analytics
+
 - **Project-Level Analytics:**
   - Views on project page
   - Leads generated (total and by campaign)
@@ -552,6 +577,7 @@ This document details the screen-by-screen flows for each user panel in the plat
   - Commission payable
 
 ### 2.4.7 Channel Partner Management
+
 - **Partner List:**
   - Table: Partner Name | Type (Broker/Agent/Agency) | Contact | Active | Leads Sent | Conversions | Commission Due | Actions
 - **Add Channel Partner:**
@@ -570,6 +596,7 @@ This document details the screen-by-screen flows for each user panel in the plat
 ## 2.5 INTERNAL ADMIN & OPERATIONS PANEL
 
 ### 2.5.1 Admin Dashboard Home
+
 - **Overview Metrics:**
   - Total users (by role)
   - Total listings (active, pending approval, flagged)
@@ -584,6 +611,7 @@ This document details the screen-by-screen flows for each user panel in the plat
   - View system health
 
 ### 2.5.2 Role & Permissions Management
+
 - **Roles List:**
   - Pre-defined roles: Admin, Moderator, Verifier, Support, Finance, Marketing, Analytics
   - Custom roles creation option
@@ -603,6 +631,7 @@ This document details the screen-by-screen flows for each user panel in the plat
   - Audit log of role changes
 
 ### 2.5.3 Listing Moderation Queue
+
 - **Queue List:**
   - Pending Approval tab | Flagged/Reported tab | Recently Rejected tab
   - Columns: Listing Image | Title | Owner | Property Type | Submitted Date | Priority | Actions
@@ -630,6 +659,7 @@ This document details the screen-by-screen flows for each user panel in the plat
   - Approve or reject in bulk (with confirmation)
 
 ### 2.5.4 User Management
+
 - **User Search & List:**
   - Search by name, email, phone, user ID
   - Filter by role, status (Active, Suspended, Banned), KYC status, city
@@ -650,6 +680,7 @@ This document details the screen-by-screen flows for each user panel in the plat
     - Impersonate user (with audit log entry and time limit)
 
 ### 2.5.5 KYC Verification Workflow
+
 - **Pending KYC Queue:**
   - List of users who submitted KYC documents
   - Columns: User Name | Role | Document Type | Submitted Date | Actions
@@ -664,6 +695,7 @@ This document details the screen-by-screen flows for each user panel in the plat
 - **KYC Status in User Profile:** Verified badge displayed on listings and profile
 
 ### 2.5.6 Complaints, Disputes & Fraud Management
+
 - **Reports/Flags List:**
   - User-reported listings or profiles
   - Columns: Reported Item | Reporter | Reason | Date | Status | Assigned To | Actions
@@ -688,6 +720,7 @@ This document details the screen-by-screen flows for each user panel in the plat
   - Admin dashboard alerts for these patterns
 
 ### 2.5.7 Platform Configuration Management
+
 - **Cities & Localities:**
   - Master list of cities with enable/disable toggle
   - Add new city form

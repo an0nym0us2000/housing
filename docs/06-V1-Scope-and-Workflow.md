@@ -11,6 +11,7 @@ This document defines what should be in the first public launch (V1) and how to 
 **Included Phases:** Phase 0, Phase 1, Phase 2
 
 **Features:**
+
 - ✅ User registration and authentication (buyers and owners)
 - ✅ Owner can list properties (with moderation)
 - ✅ Buyers can search and view property listings
@@ -23,6 +24,7 @@ This document defines what should be in the first public launch (V1) and how to 
 - ✅ Admin panel for moderation and user management
 
 **Why this is the MVP:**
+
 - Provides core marketplace value: buyers find properties, owners get leads
 - Establishes trust with moderation
 - Enables basic lead management for owners
@@ -35,18 +37,23 @@ This document defines what should be in the first public launch (V1) and how to 
 ### V2 and Beyond (Post-Launch Iterations):
 
 **Phase 3 (Broker Panel):** Launch 2-4 weeks after V1
+
 - Targets broker segment (expands supply)
 
 **Phase 4 (Builder Projects):** Launch 4-6 weeks after V1
+
 - Targets new construction segment
 
 **Phase 5 (Monetization):** Launch 6-8 weeks after V1
+
 - Once user base is established and value is proven
 
 **Phase 6 (SEO & Advanced UX):** Ongoing optimization
+
 - Some features (Elasticsearch) can go live earlier if search performance is an issue
 
 **Phase 7 (Internal Tools):** Gradual rollout
+
 - Some features (support system) might be needed earlier
 
 **Phase 8 (Mobile & AI):** 6-12 months post-V1 launch
@@ -67,19 +74,23 @@ This document defines what should be in the first public launch (V1) and how to 
 ### 8.1 General Workflow
 
 **Step 1: Select a Phase**
+
 - Start with Phase 0, then move sequentially through phases
 - Don't skip phases (they build on each other)
 
 **Step 2: Break Phase into Sub-Tasks**
+
 - Each phase has 10-15 deliverables
 - Break deliverables into smaller coding tasks
 
 **Step 3: Prompt AI Assistant with Context**
+
 - Provide context from this roadmap
 - Specify exactly what to build
 - Reference the architecture, database schema, and service boundaries
 
 **Example prompt:**
+
 ```
 I'm working on Phase 1 of the housing platform (as per the roadmap).
 
@@ -104,19 +115,23 @@ Please generate the code for:
 ```
 
 **Step 4: Review and Test Generated Code**
+
 - AI generates code
 - Review for correctness, security, and consistency
 - Test locally (unit tests, manual testing)
 
 **Step 5: Iterate and Refine**
+
 - If issues found, provide feedback to AI
 - If requirements change, update AI with new context
 
 **Step 6: Commit and Move to Next Task**
+
 - Commit code to Git with clear commit message
 - Move to next deliverable
 
 **Step 7: Complete Phase and Deploy**
+
 - Once all deliverables complete, run integration tests
 - Deploy to staging
 - User acceptance testing (UAT)
@@ -128,21 +143,25 @@ Please generate the code for:
 ### 8.2 Maintaining Consistency Across Prompts
 
 **Create a Context File:**
+
 - Save this roadmap document
 - Create `ARCHITECTURE.md` with key decisions
 - Create `DATABASE_SCHEMA.md` with table definitions
 - Reference these files in prompts
 
 **Naming Conventions:**
+
 - Stick to conventions (snake_case for DB, camelCase for code)
 - Reuse terminology consistently
 
 **Code Style:**
+
 - Define linting and formatting rules early (Phase 0)
 - Ask AI to follow those rules
 - Use Prettier and ESLint to enforce
 
 **Module Boundaries:**
+
 - Each service/module is independent
 - Clearly specify which service AI is working on
 - Avoid mixing concerns
@@ -190,24 +209,28 @@ Please generate the code for:
 ### 8.4 Example Workflow for Phase 1
 
 **Week 1:**
+
 - Task 1: Set up database schema for users, listings, cities, localities (Prisma migrations)
 - Task 2: Implement auth endpoints (register, login, JWT generation)
 - Task 3: Create homepage Next.js page with basic layout
 - Task 4: Implement city selector component with autocomplete
 
 **Week 2:**
+
 - Task 5: Create "Add Listing" wizard UI (all 7 steps)
 - Task 6: Implement backend API to save listing (POST /listings)
 - Task 7: Image upload to S3 integration
 - Task 8: Implement listing status management (draft, under review)
 
 **Week 3:**
+
 - Task 9: Build search page UI with filters
 - Task 10: Implement backend search API (basic SQL query with filters)
 - Task 11: Build listing detail page UI
 - Task 12: Implement GET /listings/:id API
 
 **Week 4:**
+
 - Task 13: Build admin moderation panel UI
 - Task 14: Implement moderation APIs (approve, reject listing)
 - Task 15: Build owner dashboard (my listings)
@@ -215,6 +238,7 @@ Please generate the code for:
 - Task 17: Email notification integration (SendGrid)
 
 **Week 5:**
+
 - Task 18: Testing and bug fixes
 - Task 19: Deploy to staging
 - Task 20: UAT and feedback
@@ -235,6 +259,7 @@ Please generate the code for:
 ### 8.6 Sample Prompts for Common Tasks
 
 #### Backend API Endpoint
+
 ```
 Create a NestJS endpoint for [purpose].
 
@@ -250,6 +275,7 @@ Include error handling and proper HTTP status codes.
 ```
 
 #### Frontend Component
+
 ```
 Create a React component for [purpose].
 
@@ -265,6 +291,7 @@ Follow the pattern in [reference component].
 ```
 
 #### Database Migration
+
 ```
 Create a Prisma migration for [purpose].
 
@@ -281,6 +308,7 @@ Include seed data if needed.
 ### 8.7 Testing Strategy with AI
 
 **Unit Tests:**
+
 ```
 Write unit tests for [service/function].
 
@@ -295,6 +323,7 @@ Aim for 80%+ coverage.
 ```
 
 **Integration Tests:**
+
 ```
 Write integration test for [API endpoint].
 

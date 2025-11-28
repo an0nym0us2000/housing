@@ -19,6 +19,7 @@ A multi-sided marketplace connecting property seekers with property providers (o
 ### 1.2 User Actors & Core Jobs to Be Done
 
 #### **Actor 1: Anonymous/Guest User**
+
 1. Search properties across buy/rent/PG/commercial categories
 2. Apply filters (city, locality, BHK, budget, amenities)
 3. View property listings and details
@@ -26,6 +27,7 @@ A multi-sided marketplace connecting property seekers with property providers (o
 5. Register/login to save properties or contact owners
 
 #### **Actor 2: Registered Buyer/Tenant**
+
 1. Save properties and create shortlists
 2. Set up search alerts for matching properties
 3. Contact owners/brokers (call, chat, WhatsApp)
@@ -38,6 +40,7 @@ A multi-sided marketplace connecting property seekers with property providers (o
 10. Track offers and negotiations
 
 #### **Actor 3: Owner/Landlord**
+
 1. Create and verify account with KYC
 2. List properties with photos, videos, documents
 3. Manage multiple listings (edit, pause, republish)
@@ -50,6 +53,7 @@ A multi-sided marketplace connecting property seekers with property providers (o
 10. Track payment history and invoices
 
 #### **Actor 4: Broker/Agent**
+
 1. Register as broker with company profile
 2. Manage inventory of multiple properties
 3. Bulk upload and manage listings
@@ -62,6 +66,7 @@ A multi-sided marketplace connecting property seekers with property providers (o
 10. Track commissions and earnings
 
 #### **Actor 5: Builder/Developer**
+
 1. Create project profiles with RERA details
 2. Define towers, wings, and unit inventory
 3. Manage unit-level status (available, blocked, booked, sold)
@@ -74,6 +79,7 @@ A multi-sided marketplace connecting property seekers with property providers (o
 10. Subscribe to premium plans for project promotion
 
 #### **Actor 6: Internal Admin**
+
 1. Manage user roles and permissions
 2. Configure platform settings (cities, localities, property types)
 3. Moderate and approve/reject listings
@@ -86,6 +92,7 @@ A multi-sided marketplace connecting property seekers with property providers (o
 10. Access audit logs and system reports
 
 #### **Actor 7: Operations/Verification Team**
+
 1. Review listing submissions in moderation queue
 2. Verify documents and KYC submissions
 3. Conduct quality checks on photos and descriptions
@@ -98,6 +105,7 @@ A multi-sided marketplace connecting property seekers with property providers (o
 10. Process bulk listing imports
 
 #### **Actor 8: Support Team**
+
 1. View and manage support tickets
 2. Access user accounts for troubleshooting (with logging)
 3. Handle complaints and disputes
@@ -110,6 +118,7 @@ A multi-sided marketplace connecting property seekers with property providers (o
 10. Coordinate with other teams
 
 #### **Actor 9: Finance Team**
+
 1. Manage subscription plans and pricing
 2. Track payments and revenue
 3. Process refunds and adjustments
@@ -122,6 +131,7 @@ A multi-sided marketplace connecting property seekers with property providers (o
 10. Manage tax documentation
 
 #### **Actor 10: Marketing/Content Team**
+
 1. Create and publish blog content
 2. Manage locality and city pages for SEO
 3. Design and schedule banner campaigns
@@ -134,6 +144,7 @@ A multi-sided marketplace connecting property seekers with property providers (o
 10. Track campaign performance
 
 #### **Actor 11: Analytics/Data Team**
+
 1. Define and track key metrics
 2. Build funnel reports (search → lead → conversion)
 3. Create cohort analysis reports
@@ -156,6 +167,7 @@ A multi-sided marketplace connecting property seekers with property providers (o
 We'll start with a **modular monolith** backend (single deployable application with clear module boundaries) for speed of development, then evolve toward microservices for specific high-scale or high-complexity modules if needed.
 
 **Why Modular Monolith First:**
+
 - Faster initial development (shared code, single deployment)
 - Easier debugging and testing in early stages
 - Lower infrastructure complexity initially
@@ -164,6 +176,7 @@ We'll start with a **modular monolith** backend (single deployable application w
 **Technology Choice: NestJS (Node.js + TypeScript)**
 
 **Justification:**
+
 - Built-in modular architecture (modules, services, controllers)
 - Strong TypeScript support (type safety across large codebase)
 - Excellent ecosystem (ORMs like TypeORM/Prisma, validation with class-validator, auth with Passport)
@@ -180,6 +193,7 @@ Each module is a logical separation within the NestJS monolith. Modules can comm
 #### **3.2.1 Auth & User Service**
 
 **Responsibility:**
+
 - User registration and login (email, phone with OTP)
 - JWT token generation and validation
 - Role-based access control (RBAC)
@@ -188,6 +202,7 @@ Each module is a logical separation within the NestJS monolith. Modules can comm
 - Refresh token handling
 
 **Core APIs:**
+
 - `POST /auth/register` - Register new user
 - `POST /auth/login` - Login with email/phone and password
 - `POST /auth/send-otp` - Send OTP for phone verification
@@ -199,10 +214,12 @@ Each module is a logical separation within the NestJS monolith. Modules can comm
 - `GET /auth/me` - Get current user info
 
 **Dependencies:**
+
 - User Profile Service (for user data)
 - Notification Service (to send OTP and password reset emails/SMS)
 
 **Database Tables:**
+
 - `users` (id, email, phone, password_hash, role, status, created_at, updated_at)
 - `refresh_tokens` (id, user_id, token, expires_at)
 - `otps` (id, user_id, otp, type, expires_at, verified)
@@ -212,6 +229,7 @@ Each module is a logical separation within the NestJS monolith. Modules can comm
 #### **3.2.2 User Profile Service**
 
 **Responsibility:**
+
 - Manage user profile data for all user types
 - KYC document upload and tracking
 - User preferences and settings
@@ -219,6 +237,7 @@ Each module is a logical separation within the NestJS monolith. Modules can comm
 - Address and contact details
 
 **Core APIs:**
+
 - `GET /users/:id` - Get user profile (with access control)
 - `PATCH /users/:id` - Update user profile
 - `POST /users/:id/kyc` - Upload KYC documents
@@ -229,11 +248,13 @@ Each module is a logical separation within the NestJS monolith. Modules can comm
 - `DELETE /users/:id` - Delete account (soft delete)
 
 **Dependencies:**
+
 - Auth Service (for user identity)
 - Media Service (for photo uploads)
 - Notification Service (KYC status updates)
 
 **Database Tables:**
+
 - `user_profiles` (id, user_id, full_name, bio, city, state, address, alternate_phone, created_at, updated_at)
 - `kyc_documents` (id, user_id, document_type, file_url, status, verified_by, verified_at, rejection_reason)
 - `user_preferences` (id, user_id, email_notifications, sms_notifications, push_notifications, search_preferences_json)
@@ -243,6 +264,7 @@ Each module is a logical separation within the NestJS monolith. Modules can comm
 #### **3.2.3 Listing Service**
 
 **Responsibility:**
+
 - Create, read, update, delete property listings
 - Listing status management (draft, under review, published, paused, expired, rejected)
 - Listing expiry and renewal
@@ -251,6 +273,7 @@ Each module is a logical separation within the NestJS monolith. Modules can comm
 - Listing search (basic, delegates to Search Service for advanced)
 
 **Core APIs:**
+
 - `POST /listings` - Create new listing
 - `GET /listings/:id` - Get listing detail (public or owner view based on auth)
 - `PATCH /listings/:id` - Update listing
@@ -264,6 +287,7 @@ Each module is a logical separation within the NestJS monolith. Modules can comm
 - `POST /listings/:id/duplicate-check` - Check for potential duplicates
 
 **Dependencies:**
+
 - User Profile Service (to link owner)
 - Media Service (for photos, videos, documents)
 - Search Service (to index listing after publish)
@@ -271,6 +295,7 @@ Each module is a logical separation within the NestJS monolith. Modules can comm
 - Analytics Service (log listing events)
 
 **Database Tables:**
+
 - `listings` (id, user_id, title, description, property_type, transaction_type, city, locality, address, latitude, longitude, bhk, bathrooms, balconies, furnishing, carpet_area, built_up_area, floor_number, total_floors, facing, age_of_property, possession_status, price, price_unit, is_negotiable, maintenance_charges, security_deposit, status, published_at, expires_at, views_count, leads_count, is_featured, featured_until, created_at, updated_at, deleted_at)
 - `listing_amenities` (listing_id, amenity_id) - many-to-many
 - `listing_media` (id, listing_id, media_id, media_type, is_cover, order)
@@ -281,6 +306,7 @@ Each module is a logical separation within the NestJS monolith. Modules can comm
 #### **3.2.4 Search Service**
 
 **Responsibility:**
+
 - Index listings in Elasticsearch/OpenSearch
 - Provide fast, filtered, faceted search
 - Geospatial search (radius, polygon)
@@ -289,21 +315,25 @@ Each module is a logical separation within the NestJS monolith. Modules can comm
 - Search suggestions
 
 **Core APIs:**
+
 - `POST /search` - Search listings with filters (body: query, filters, sort, pagination)
 - `GET /search/suggestions` - Autocomplete suggestions for search box
 - `POST /search/index-listing` - Index or re-index a listing (internal API, called by Listing Service)
 - `DELETE /search/index-listing/:id` - Remove listing from index (internal)
 
 **Dependencies:**
+
 - Listing Service (source of data to index)
 - Elasticsearch/OpenSearch cluster
 
 **Indexing Strategy:**
+
 - Write path: Listing Service publishes event → Search Service listens and indexes
 - Or: Listing Service calls Search Service API directly after publish/update
 - Bulk re-indexing script for initial setup or after schema changes
 
 **Caching:**
+
 - Cache popular search queries in Redis with TTL (e.g., 5 minutes)
 - Cache filter facets and counts
 
@@ -312,6 +342,7 @@ Each module is a logical separation within the NestJS monolith. Modules can comm
 #### **3.2.5 Lead Service**
 
 **Responsibility:**
+
 - Capture leads (contact actions: call, chat, visit request)
 - Lead tracking and status management
 - Lead assignment (for brokers and builders)
@@ -320,6 +351,7 @@ Each module is a logical separation within the NestJS monolith. Modules can comm
 - Lead analytics
 
 **Core APIs:**
+
 - `POST /leads` - Create lead (triggered when buyer contacts owner)
 - `GET /leads/:id` - Get lead detail
 - `PATCH /leads/:id` - Update lead (status, notes)
@@ -329,6 +361,7 @@ Each module is a logical separation within the NestJS monolith. Modules can comm
 - `GET /leads/:id/activity` - Get activity timeline for lead
 
 **Dependencies:**
+
 - User Profile Service (buyer and owner info)
 - Listing Service (property info)
 - Messaging Service (if lead includes chat)
@@ -337,6 +370,7 @@ Each module is a logical separation within the NestJS monolith. Modules can comm
 - Analytics Service (log lead events)
 
 **Database Tables:**
+
 - `leads` (id, listing_id, buyer_id, owner_id, source, campaign_id, contact_method, status, assigned_to, priority, created_at, updated_at)
 - `lead_notes` (id, lead_id, user_id, note, timestamp)
 - `lead_activity_log` (id, lead_id, activity_type, details, timestamp)
@@ -346,6 +380,7 @@ Each module is a logical separation within the NestJS monolith. Modules can comm
 #### **3.2.6 Messaging/Chat Service**
 
 **Responsibility:**
+
 - In-app real-time chat between buyers and owners/brokers
 - Conversation threads linked to listings
 - Message history
@@ -353,6 +388,7 @@ Each module is a logical separation within the NestJS monolith. Modules can comm
 - Real-time delivery (WebSocket or polling)
 
 **Core APIs:**
+
 - `POST /conversations` - Start a conversation (between buyer and listing owner)
 - `GET /conversations/:id` - Get conversation detail with messages
 - `POST /conversations/:id/messages` - Send a message
@@ -361,17 +397,20 @@ Each module is a logical separation within the NestJS monolith. Modules can comm
 - `GET /conversations/:id/unread-count` - Get unread message count
 
 **Real-Time Architecture:**
+
 - Use WebSockets (Socket.io) for real-time messaging
 - Fallback to HTTP polling if WebSocket not available
 - Store messages in database for history
 - Use Redis pub/sub for multi-server WebSocket broadcasting if needed
 
 **Dependencies:**
+
 - User Profile Service (participants)
 - Listing Service (context of conversation)
 - Notification Service (push notification for new messages if user offline)
 
 **Database Tables:**
+
 - `conversations` (id, listing_id, buyer_id, owner_id, last_message_at, unread_count_buyer, unread_count_owner)
 - `messages` (id, conversation_id, sender_id, message_text, sent_at, read_at)
 
@@ -380,6 +419,7 @@ Each module is a logical separation within the NestJS monolith. Modules can comm
 #### **3.2.7 Visit Scheduling Service**
 
 **Responsibility:**
+
 - Schedule property visits
 - Manage visit slots (if owner defines available slots)
 - Reminders for upcoming visits
@@ -387,6 +427,7 @@ Each module is a logical separation within the NestJS monolith. Modules can comm
 - Calendar integration (optional)
 
 **Core APIs:**
+
 - `POST /visits` - Schedule a visit
 - `GET /visits/:id` - Get visit detail
 - `PATCH /visits/:id` - Update visit (confirm, reschedule, cancel)
@@ -394,12 +435,14 @@ Each module is a logical separation within the NestJS monolith. Modules can comm
 - `GET /visits/slots` - Get available time slots for a listing (if owner defined slots)
 
 **Dependencies:**
+
 - Listing Service (property info)
 - User Profile Service (buyer and owner details)
 - Lead Service (link visit to lead)
 - Notification Service (send reminders)
 
 **Database Tables:**
+
 - `visits` (id, listing_id, buyer_id, owner_id, lead_id, scheduled_date, scheduled_time, status, created_at, updated_at)
 - `visit_slots` (id, listing_id, day_of_week, start_time, end_time, is_available) - optional
 
@@ -408,6 +451,7 @@ Each module is a logical separation within the NestJS monolith. Modules can comm
 #### **3.2.8 Project & Builder Service**
 
 **Responsibility:**
+
 - Manage builder projects, towers, units
 - Project detail pages data
 - Inventory grid status management
@@ -415,6 +459,7 @@ Each module is a logical separation within the NestJS monolith. Modules can comm
 - Channel partner and commission tracking
 
 **Core APIs:**
+
 - `POST /projects` - Create project
 - `GET /projects/:id` - Get project detail
 - `PATCH /projects/:id` - Update project
@@ -432,12 +477,14 @@ Each module is a logical separation within the NestJS monolith. Modules can comm
 - `GET /projects/:id/channel-partners` - List partners with commission data
 
 **Dependencies:**
+
 - User Profile Service (builder info)
 - Media Service (project images, brochures)
 - Lead Service (project leads)
 - Notification Service (campaign notifications)
 
 **Database Tables:**
+
 - `projects`, `project_amenities`, `project_media`, `towers`, `units`, `campaigns`, `channel_partners`, `partner_commissions`
 
 ---
@@ -445,6 +492,7 @@ Each module is a logical separation within the NestJS monolith. Modules can comm
 #### **3.2.9 Payment & Billing Service**
 
 **Responsibility:**
+
 - Manage subscription plans and promotions
 - Payment gateway integration (Stripe, Razorpay, PayPal, etc.)
 - Transaction recording
@@ -453,6 +501,7 @@ Each module is a logical separation within the NestJS monolith. Modules can comm
 - Subscription lifecycle (activate, renew, expire, cancel)
 
 **Core APIs:**
+
 - `GET /plans` - Get all available plans (public)
 - `POST /subscriptions` - Subscribe to a plan (initiates payment)
 - `GET /subscriptions/:id` - Get subscription detail
@@ -465,11 +514,13 @@ Each module is a logical separation within the NestJS monolith. Modules can comm
 - `POST /refunds` - Initiate refund (admin action)
 
 **Dependencies:**
+
 - User Profile Service (billing details)
 - Notification Service (payment confirmation emails)
 - Listing Service (apply promotion boost to listing ranking)
 
 **Database Tables:**
+
 - `plans`, `subscriptions`, `promotions`, `transactions`, `invoices`
 
 ---
@@ -477,6 +528,7 @@ Each module is a logical separation within the NestJS monolith. Modules can comm
 #### **3.2.10 Notification Service**
 
 **Responsibility:**
+
 - Send emails (transactional and promotional)
 - Send SMS (OTP, alerts)
 - Send push notifications (mobile and web)
@@ -485,6 +537,7 @@ Each module is a logical separation within the NestJS monolith. Modules can comm
 - Track notification delivery status
 
 **Core APIs:**
+
 - `POST /notifications/email` - Send email (internal API)
 - `POST /notifications/sms` - Send SMS (internal API)
 - `POST /notifications/push` - Send push notification (internal API)
@@ -493,9 +546,11 @@ Each module is a logical separation within the NestJS monolith. Modules can comm
 - `PATCH /notifications/:id/read` - Mark notification as read
 
 **Dependencies:**
+
 - User Profile Service (user contact info and preferences)
 
 **Database Tables:**
+
 - `notification_templates`, `notifications`
 
 ---
@@ -503,6 +558,7 @@ Each module is a logical separation within the NestJS monolith. Modules can comm
 #### **3.2.11 Admin & Moderation Service**
 
 **Responsibility:**
+
 - Admin user management
 - Role and permission management
 - Listing moderation workflows
@@ -512,6 +568,7 @@ Each module is a logical separation within the NestJS monolith. Modules can comm
 - Audit logs
 
 **Core APIs:**
+
 - `GET /admin/users` - List all users with filters (admin only)
 - `PATCH /admin/users/:id` - Update user (suspend, ban, edit)
 - `POST /admin/users/:id/impersonate` - Impersonate user (with logging)
@@ -529,9 +586,11 @@ Each module is a logical separation within the NestJS monolith. Modules can comm
 - `GET /admin/audit-logs` - View audit logs
 
 **Dependencies:**
+
 - All other services (admin has access to everything with proper auth)
 
 **Database Tables:**
+
 - `roles`, `user_roles`, `cities`, `localities`, `amenities`, `property_types`, `reports`, `audit_logs`
 
 ---
@@ -539,6 +598,7 @@ Each module is a logical separation within the NestJS monolith. Modules can comm
 #### **3.2.12 Analytics & Events Service**
 
 **Responsibility:**
+
 - Track all user events and actions
 - Store events for analysis
 - Provide analytics APIs for dashboards
@@ -546,6 +606,7 @@ Each module is a logical separation within the NestJS monolith. Modules can comm
 - A/B experiment tracking
 
 **Core APIs:**
+
 - `POST /events` - Log an event (called by frontend and other backend services)
 - `GET /analytics/metrics` - Get key metrics (with date range and filters)
 - `GET /analytics/funnels` - Get funnel data
@@ -554,9 +615,11 @@ Each module is a logical separation within the NestJS monolith. Modules can comm
 - `POST /analytics/custom-query` - Run custom analytics query (admin only)
 
 **Dependencies:**
+
 - All services (send events to this service)
 
 **Database Tables:**
+
 - `events`, `experiments`, `experiment_assignments`
 
 ---
@@ -618,6 +681,7 @@ Each module is a logical separation within the NestJS monolith. Modules can comm
 ```
 
 **Communication:**
+
 - **Client → Backend:** REST APIs over HTTPS, JWT in Authorization header
 - **Backend Services → Backend Services:** Direct function calls within monolith
 - **Async Communication:** Message queue (BullMQ + Redis) for jobs like sending emails, indexing search
@@ -630,28 +694,33 @@ Each module is a logical separation within the NestJS monolith. Modules can comm
 **High-Traffic Queries (need indexes):**
 
 **Listings Table:**
+
 - Index on: `city`, `locality`, `property_type`, `transaction_type`, `bhk`, `price`, `status`, `published_at`
 - Composite index: `(city, locality, transaction_type, status, published_at)`
 - Index on: `user_id`
 - Index on: `expires_at`
 
 **Leads Table:**
+
 - Index on: `listing_id`, `buyer_id`, `owner_id`, `status`, `created_at`
 - Composite index: `(owner_id, status, created_at)`
 
 **Users Table:**
+
 - Unique index on: `email`, `phone`
 - Index on: `role`, `status`
 
 **Caching Strategy:**
 
 **Redis Caching:**
+
 - Cache popular search queries: Key pattern `search:<hash>`, TTL 5-10 mins
 - Cache listing detail pages: Key `listing:<id>`, TTL 10 mins
 - Cache config data: Cities, localities, amenities, TTL 1 hour
 - Cache aggregated analytics: Daily metrics, TTL 1 hour
 
 **CDN Caching:**
+
 - Static assets (JS, CSS, images) via CDN
 - Media files (property photos) from S3 + CloudFront
 - Public pages cached at CDN with short TTL
