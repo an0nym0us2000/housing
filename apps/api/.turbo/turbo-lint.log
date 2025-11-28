@@ -1,0 +1,88 @@
+
+> @housing/api@1.0.0 lint
+> eslint "{src,apps,libs,test}/**/*.ts" --fix
+
+
+/home/user/housing/apps/api/src/modules/auth/auth.service.ts
+  43:23  error  '_password' is assigned a value but never used   @typescript-eslint/no-unused-vars
+  69:23  error  '_password2' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+/home/user/housing/apps/api/src/modules/listings/listings.service.ts
+  51:18  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/user/housing/apps/api/src/modules/notifications/email.service.ts
+   98:29  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   98:43  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  182:40  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  182:54  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  241:36  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  241:50  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  300:34  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  360:40  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  405:40  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/user/housing/apps/api/src/modules/notifications/notifications.controller.ts
+  12:46  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  26:40  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  37:73  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  48:39  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/user/housing/apps/api/src/modules/notifications/notifications.service.ts
+   35:16  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   77:39  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   77:53  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   77:65  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  100:38  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  100:52  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  100:66  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  123:34  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  123:48  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  149:32  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  149:47  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  172:38  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  172:50  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  195:38  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  195:50  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  218:32  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  218:47  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  218:61  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  230:32  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  230:47  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  230:62  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/user/housing/apps/api/src/modules/projects/projects.controller.ts
+   40:27  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  135:53  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  144:83  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/user/housing/apps/api/src/modules/projects/projects.service.ts
+   70:25  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   71:18  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  405:45  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  406:18  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  431:64  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/user/housing/apps/api/src/modules/tasks/tasks.service.ts
+   64:18  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  162:17  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  220:18  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/home/user/housing/apps/api/src/modules/users/users.controller.ts
+  18:23  error  '_password' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+/home/user/housing/apps/api/src/modules/visits/visits.service.ts
+   81:18  warning  Unexpected any. Specify a different type            @typescript-eslint/no-explicit-any
+  175:18  warning  Unexpected any. Specify a different type            @typescript-eslint/no-explicit-any
+  226:18  warning  Unexpected any. Specify a different type            @typescript-eslint/no-explicit-any
+  350:11  error    '_notifyUserId' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  387:11  error    'notifyUserId' is assigned a value but never used   @typescript-eslint/no-unused-vars
+
+✖ 54 problems (5 errors, 49 warnings)
+
+npm error Lifecycle script `lint` failed with error:
+npm error code 1
+npm error path /home/user/housing/apps/api
+npm error workspace @housing/api@1.0.0
+npm error location /home/user/housing/apps/api
+npm error command failed
+npm error command sh -c eslint "{src,apps,libs,test}/**/*.ts" --fix
